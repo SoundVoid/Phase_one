@@ -32,18 +32,26 @@ public class Player : MonoBehaviour {
 		}
 		if (Input.GetKey (KeyCode.W))
 		{
-//			transform.RotateAround(transform.position, transform.up, -5);
-
+			FixedUpdate();
 		}
-
 		if (Input.GetKey (KeyCode.A))
 		{
-			transform.RotateAround(transform.position, transform.up, -5);
+			transform.RotateAround(transform.position, transform.up, -2);
 		}
-		
+		if (Input.GetKey (KeyCode.S))
+		{
+			FixedUpdate();
+		}
 		if (Input.GetKey (KeyCode.D))
 		{
-			transform.RotateAround(transform.position, transform.up, 5);
+			transform.RotateAround(transform.position, transform.up, 2);
+		}
+		int i = 0;
+		while (i < 4) {
+			if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.2F || Mathf.Abs(Input.GetAxis("Vertical")) > 0.2F)
+				Debug.Log(Input.GetJoystickNames()[i] + " is moved");
+			
+			i++;
 		}
 	}
 	void OnCollisionEnter(Collision col)
@@ -79,16 +87,30 @@ public class Player : MonoBehaviour {
 			
 			if (grounded)
 			{
-				walkSpeed = 10;
+				walkSpeed = 8;
 			}
 			else
 			{
-				walkSpeed = 5;
+				walkSpeed = 4;
 			}
 			
 			rb.AddForce(transform.forward * walkSpeed, ForceMode.Acceleration);
 		}
-
+		if (Input.GetKey(KeyCode.S))
+		{
+			float walkSpeed;
+			
+			if (grounded)
+			{
+				walkSpeed = 8;
+			}
+			else
+			{
+				walkSpeed = 4;
+			}
+			
+			rb.AddForce(-transform.forward * walkSpeed, ForceMode.Acceleration);
+		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			if (grounded)

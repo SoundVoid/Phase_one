@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class Player1 : MonoBehaviour {
 	
 	Rigidbody rb;
 //	public Bullet bullet;
 	public int maxHealth;
 	public int currentHealth;
-//	public float jumpStrength;
+	public float walkSpeed;
 	bool grounded = false;
 	
 	// Use this for initialization
@@ -16,42 +16,30 @@ public class Player : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
 		//if the player's health is zero, deactivate the player
 		if (currentHealth <= 0)
 		{
 			gameObject.SetActive(false);
 		}
-		
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-//			Shoot();
-		}
-		if (Input.GetKey (KeyCode.W))
-		{
-			FixedUpdate();
-		}
-		if (Input.GetKey (KeyCode.A))
-		{
-			transform.RotateAround(transform.position, transform.up, -2);
-		}
-		if (Input.GetKey (KeyCode.S))
-		{
-			FixedUpdate();
-		}
-		if (Input.GetKey (KeyCode.D))
-		{
-			transform.RotateAround(transform.position, transform.up, 2);
-		}
-		int i = 0;
-		while (i < 4) {
-			if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.2F || Mathf.Abs(Input.GetAxis("Vertical")) > 0.2F)
-				Debug.Log(Input.GetJoystickNames()[i] + " is moved");
-			
-			i++;
+
+		if (gameObject.tag == "Player1") {
+			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.S))
+			{
+				FixedUpdate();
+			}
+			if (Input.GetKey (KeyCode.A))
+			{
+				transform.RotateAround(transform.position, transform.up, -2);
+				//transform.position -= transform.right * 8 * Time.deltaTime;
+			}
+			if (Input.GetKey (KeyCode.D))
+			{
+				transform.RotateAround(transform.position, transform.up, 2);
+				//transform.position += transform.right * 8 * Time.deltaTime;
+			}
 		}
 	}
 	void OnCollisionEnter(Collision col)
@@ -83,43 +71,14 @@ public class Player : MonoBehaviour {
 	{
 		if (Input.GetKey(KeyCode.W))
 		{
-			float walkSpeed;
-			
-			if (grounded)
-			{
-				walkSpeed = 8;
-			}
-			else
-			{
-				walkSpeed = 4;
-			}
-			
 			rb.AddForce(transform.forward * walkSpeed, ForceMode.Acceleration);
+			//transform.position += transform.forward * walkSpeed * Time.deltaTime;
 		}
 		if (Input.GetKey(KeyCode.S))
 		{
-			float walkSpeed;
-			
-			if (grounded)
-			{
-				walkSpeed = 8;
-			}
-			else
-			{
-				walkSpeed = 4;
-			}
-			
 			rb.AddForce(-transform.forward * walkSpeed, ForceMode.Acceleration);
-		}
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			if (grounded)
-			{
-//				rb.AddForce(Vector3.up * jumpStrength, ForceMode.VelocityChange);
-//				Debug.Log ("jumped");
-			}
+			//transform.position -= transform.forward * walkSpeed * Time.deltaTime;
 		}
 	}
-	
-	
+
 }

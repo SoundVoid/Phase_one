@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Player2 : MonoBehaviour {
 	Rigidbody rb;
-	//	public Bullet bullet;
+
+	public Bullet bullet;
 	public int maxHealth;
 	public int currentHealth;
 	public float walkSpeed;
@@ -38,6 +39,9 @@ public class Player2 : MonoBehaviour {
 				transform.RotateAround(transform.position, transform.up, 2);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
+		}
+		if (Input.GetKeyDown (KeyCode.M)) {
+			Shoot();
 		}
 	}
 	void OnCollisionEnter(Collision col)
@@ -77,6 +81,12 @@ public class Player2 : MonoBehaviour {
 			rb.AddForce(-transform.forward * walkSpeed, ForceMode.Acceleration);
 			//transform.position -= transform.forward * walkSpeed * Time.deltaTime;
 		}
+	}
+	void Shoot(){
+		//Instantiate a bullet and set it to a newBullet
+		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + -transform.forward, Quaternion.identity);
+		newBullet.direction = transform.forward;
+		
 	}
 
 }

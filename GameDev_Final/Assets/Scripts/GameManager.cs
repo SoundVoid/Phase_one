@@ -3,15 +3,20 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	public Player1 player;
-	public Enemies basicEnemy;
-	public Enemies fierceEnemy;
-	public Transform[] spawnPoints;
+	public Player1 player1;
+	public Player2 player2;
+	public Enemies basicEnemy1;
+	public Enemies basicEnemy2;
+	public float spawnTime = 1f;
+	public Transform[] spawnPoints1;
+	public Transform[] spawnPoints2;
+
+
 
 	// Use this for initialization
 	void Start () {
 		// call the SpawnEnemy function once every second afer 1 second.
-		InvokeRepeating("SpawnEnemy", 1f, 1f);
+		InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
 	
 	}
 	
@@ -22,15 +27,12 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnEnemy()
 	{
-
-		// we could randomize fierce vs. basic
-
-		//instantiate new enemy
-		Enemies newEnemy = (Enemies) Instantiate(basicEnemy, spawnPoints[Random.Range (0, spawnPoints.Length)].position, Quaternion.identity);
-		//set enemy's target to player
-		newEnemy.target = player.transform;
-		//activating my game objects, for some reason they're deactivated!!!
-		newEnemy.gameObject.SetActive(true);
+		// Find a random index between zero and one less than the number of spawn points.
+		int spawnPointIndex = Random.Range (0, spawnPoints1.Length);
+		
+		// Create an instance of the enemy prefab at the randomly selected spawn point's position and rotation.
+		Instantiate (basicEnemy1, spawnPoints1[spawnPointIndex].position, spawnPoints1[spawnPointIndex].rotation);
+		Instantiate (basicEnemy2, spawnPoints2[spawnPointIndex].position, spawnPoints2[spawnPointIndex].rotation);
 
 	}
 }

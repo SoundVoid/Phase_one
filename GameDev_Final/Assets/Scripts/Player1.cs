@@ -63,6 +63,10 @@ public class Player1 : MonoBehaviour {
 		{
 			grounded = true;
 		}
+		if (col.collider.tag == "Enemy")
+		{
+			currentHealth -= 1;
+		}
 	}
 	
 	void OnCollisionExit(Collision col)

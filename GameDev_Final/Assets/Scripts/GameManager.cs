@@ -39,8 +39,8 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
 		// call the SpawnEnemy function once every second afer 1 second.
-//		healthBar.maxValue = player1.maxHealth;
-//		healthBar2.maxValue = player2.maxHealth;
+		healthBar.maxValue = player1.maxHealth;
+		healthBar2.maxValue = player2.maxHealth;
 		if (matchTimer > 0.0f) {
 			matchTimer -= Time.deltaTime;
 			InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
@@ -49,8 +49,8 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-//		healthBar.value = player1.currentHealth;
-//		healthBar2.value = player2.currentHealth;
+		healthBar.value = player1.currentHealth;
+		healthBar2.value = player2.currentHealth;
 	}
 
 	void SpawnEnemy()

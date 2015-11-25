@@ -88,8 +88,8 @@ public class Player1 : MonoBehaviour {
 	}
 	void Shoot(){
 		//Instantiate a bullet and set it to a newBullet
-		//Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + -transform.forward, Quaternion.identity);
-		//newBullet.direction = -transform.forward;
+		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+		newBullet.direction = transform.forward;
 		
 	}
 

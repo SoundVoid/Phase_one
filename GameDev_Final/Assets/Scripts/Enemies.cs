@@ -9,8 +9,8 @@ public class Enemies : MonoBehaviour {
 	public int wanderIndex;
 	
 	private float t = 60.0f;
-	private float walkSpeed = 2.0f;
-	private float runSpeed = 5.0f;
+	private float walkSpeed = 1.0f;
+	private float runSpeed = 1.0f;
 
 	
 	// Use this for initialization
@@ -20,36 +20,28 @@ public class Enemies : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-//		if (t > 0.0f) {
+		Chasing (target);
+//		if (t > 0.0f) 
+//		{
 //			t -= Time.deltaTime;
-//			if ( t < 30.0f){
-//				moveSpeed = 4;
-//				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(target.position - transform.position), .2f);
-//				transform.position += transform.forward * moveSpeed * Time.deltaTime;
+//			if (t > 30.0f) 
+//			{
+//				if (transform.position.x >= pt[wanderIndex].position.x && transform.position.z >= pt[wanderIndex].position.z)
+//				{
+//					wanderIndex = Random.Range (0, pt.Length);
+//				}
+//				Wandering (wanderIndex);
+//			}
+//			if (t < 30.0f)
+//			{
+//				Chasing();
 //			}
 //		}
-		if (t > 0.0f) 
-		{
-			t -= Time.deltaTime;
-			if (t > 30.0f) 
-			{
-				if (transform.position.x >= pt[wanderIndex].position.x && transform.position.z >= pt[wanderIndex].position.z)
-				{
-					wanderIndex = Random.Range (0, pt.Length);
-				}
-				Wandering (wanderIndex);
-			}
-			if (t < 30.0f)
-			{
-				Chasing();
-			}
-		}
 	}
 
-	void Chasing ()
+	void Chasing (Transform t)
 	{	
-		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(target.position - transform.position), .2f);
+		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t.position - transform.position), .2f);
 		transform.position += transform.forward * runSpeed * Time.deltaTime;
 	}
 	

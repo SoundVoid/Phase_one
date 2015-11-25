@@ -6,7 +6,7 @@ public class Enemies : MonoBehaviour {
 	Rigidbody rb;
 	public Transform target;
 	public Transform[] pt;
-	public int pointIndex;
+	public int wanderIndex;
 	
 	private float t = 60.0f;
 	private float walkSpeed = 2.0f;
@@ -34,11 +34,11 @@ public class Enemies : MonoBehaviour {
 			t -= Time.deltaTime;
 			if (t > 30.0f) 
 			{
-				if (transform.position.x >= pt[pointIndex].position.x && transform.position.z >= pt[pointIndex].position.z)
+				if (transform.position.x >= pt[wanderIndex].position.x && transform.position.z >= pt[wanderIndex].position.z)
 				{
-					pointIndex = Random.Range (0, pt.Length);
+					wanderIndex = Random.Range (0, pt.Length);
 				}
-				Wandering (pointIndex);
+				Wandering (wanderIndex);
 			}
 			if (t < 30.0f)
 			{

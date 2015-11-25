@@ -4,10 +4,12 @@ using System.Collections;
 public class Player1 : MonoBehaviour {
 	
 	Rigidbody rb;
-//	public Bullet bullet;
+
+	public Bullet bullet;
 	public int maxHealth;
 	public int currentHealth;
 	public float walkSpeed;
+
 	bool grounded = false;
 	
 	// Use this for initialization
@@ -32,15 +34,19 @@ public class Player1 : MonoBehaviour {
 			}
 			if (Input.GetKey (KeyCode.A))
 			{
-				transform.RotateAround(transform.position, transform.up, -2);
+				transform.RotateAround(transform.position, transform.up, -3);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
 			if (Input.GetKey (KeyCode.D))
 			{
-				transform.RotateAround(transform.position, transform.up, 2);
+				transform.RotateAround(transform.position, transform.up, 3);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}
+
+		if(Input.GetKeyDown(KeyCode.C)){
+			Shoot();
+		}	
 	}
 	void OnCollisionEnter(Collision col)
 	{
@@ -79,6 +85,12 @@ public class Player1 : MonoBehaviour {
 			rb.AddForce(-transform.forward * walkSpeed, ForceMode.Acceleration);
 			//transform.position -= transform.forward * walkSpeed * Time.deltaTime;
 		}
+	}
+	void Shoot(){
+		//Instantiate a bullet and set it to a newBullet
+		//Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + -transform.forward, Quaternion.identity);
+		//newBullet.direction = -transform.forward;
+		
 	}
 
 }

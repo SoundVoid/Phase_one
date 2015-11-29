@@ -4,11 +4,13 @@ using System.Collections;
 public class Player1 : MonoBehaviour {
 	
 	Rigidbody rb;
+	public GameManager gm;
 
 	public Bullet bullet;
-	public int maxHealth;
-	public int currentHealth;
+	public float maxHealth;
+	public float currentHealth;
 	public float walkSpeed;
+	public int score = 0;
 
 	bool grounded = false;
 	
@@ -16,7 +18,7 @@ public class Player1 : MonoBehaviour {
 	void Start () {
 		
 		rb = GetComponent<Rigidbody>();
-		
+	
 	}
 
 	// Update is called once per frame
@@ -25,6 +27,7 @@ public class Player1 : MonoBehaviour {
 		if (currentHealth <= 0)
 		{
 			gameObject.SetActive(false);
+			gm.GameOver ();
 		}
 
 		if (gameObject.tag == "Player1") {
@@ -46,14 +49,14 @@ public class Player1 : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.C)){
 			Shoot();
-		}	
+		}
 	}
 	void OnCollisionEnter(Collision col)
 	{
 		//decrease the health if the collider's tag tells us it's an 'enemy'. We set the tag in the inspector underneath the object name.
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 1;
+			currentHealth -= 0.5f;
 		}
 		
 	}
@@ -65,7 +68,7 @@ public class Player1 : MonoBehaviour {
 		}
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 1;
+			currentHealth -= 0.5f;
 		}
 	}
 	
@@ -79,6 +82,14 @@ public class Player1 : MonoBehaviour {
 	
 	void FixedUpdate()
 	{
+//		float moveHorizontal = Input.GetAxis ("Horizontal");
+//		float moveVertical = Input.GetAxis ("Vertical");
+//
+//		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+//		rb.velocity = movement * walkSpeed;
+//
+//		rb.rotation = Quaternion.Euler (0.0f, 0.0f, rb.velocity.x);
+
 		if (Input.GetKey(KeyCode.W))
 		{
 			rb.AddForce(transform.forward * walkSpeed, ForceMode.Acceleration);

@@ -25,22 +25,22 @@ public class Player2 : MonoBehaviour {
 			gameObject.SetActive(false);
 		}
 		if (gameObject.tag == "Player2") {
-			if (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.DownArrow))
+			if (Input.GetKey (KeyCode.I) || Input.GetKey (KeyCode.K))
 			{
 				FixedUpdate();
 			}
-			if (Input.GetKey (KeyCode.LeftArrow))
+			if (Input.GetKey (KeyCode.J))
 			{
-				transform.RotateAround(transform.position, transform.up, -2);
+				transform.RotateAround(transform.position, transform.up, -3);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
-			if (Input.GetKey (KeyCode.RightArrow))
+			if (Input.GetKey (KeyCode.L))
 			{
-				transform.RotateAround(transform.position, transform.up, 2);
+				transform.RotateAround(transform.position, transform.up, 3);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}
-		if (Input.GetKeyDown (KeyCode.M)) {
+		if (Input.GetKeyDown (KeyCode.Semicolon)) {
 			Shoot();
 		}
 	}
@@ -59,6 +59,10 @@ public class Player2 : MonoBehaviour {
 		{
 			grounded = true;
 		}
+		if (col.collider.tag == "Enemy")
+		{
+			currentHealth -= 1;
+		}
 	}
 	
 	void OnCollisionExit(Collision col)
@@ -71,12 +75,12 @@ public class Player2 : MonoBehaviour {
 	
 	void FixedUpdate()
 	{
-		if (Input.GetKey(KeyCode.UpArrow))
+		if (Input.GetKey(KeyCode.I))
 		{
 			rb.AddForce(transform.forward * walkSpeed, ForceMode.Acceleration);
 			//transform.position += transform.forward * walkSpeed * Time.deltaTime;
 		}
-		if (Input.GetKey(KeyCode.DownArrow))
+		if (Input.GetKey(KeyCode.K))
 		{
 			rb.AddForce(-transform.forward * walkSpeed, ForceMode.Acceleration);
 			//transform.position -= transform.forward * walkSpeed * Time.deltaTime;
@@ -84,7 +88,7 @@ public class Player2 : MonoBehaviour {
 	}
 	void Shoot(){
 		//Instantiate a bullet and set it to a newBullet
-		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + -transform.forward, Quaternion.identity);
+		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
 		newBullet.direction = transform.forward;
 		
 	}

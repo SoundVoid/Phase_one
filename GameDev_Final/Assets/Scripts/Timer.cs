@@ -13,9 +13,10 @@ public class Timer : MonoBehaviour {
 	void Update () {
 		if (t > 0.0f) {
 			t -= Time.deltaTime;
-			l.transform.RotateAround(transform.position, transform.right, -0.02f);
+			//l.transform.RotateAround(transform.position, transform.right, -0.05f);
 		}
 		string s = t.ToString ();
 		GetComponent<TextMesh> ().text = s;
+		//Debug.Log (l.transform.rotation);
 	}
 }

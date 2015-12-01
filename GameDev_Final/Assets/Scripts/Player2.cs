@@ -5,9 +5,11 @@ public class Player2 : MonoBehaviour {
 	Rigidbody rb;
 
 	public Bullet bullet;
-	public int maxHealth;
-	public int currentHealth;
+	public float maxHealth;
+	public float currentHealth;
 	public float walkSpeed;
+	private int score;
+
 	bool grounded = false;
 	
 	// Use this for initialization
@@ -49,7 +51,7 @@ public class Player2 : MonoBehaviour {
 		//decrease the health if the collider's tag tells us it's an 'enemy'. We set the tag in the inspector underneath the object name.
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 1;
+			currentHealth -= 0.5f;
 		}
 		
 	}
@@ -61,7 +63,7 @@ public class Player2 : MonoBehaviour {
 		}
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 1;
+			currentHealth -= 0.5f;
 		}
 	}
 	

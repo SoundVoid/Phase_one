@@ -1,16 +1,19 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
 
 public class Player1 : MonoBehaviour {
 	
 	Rigidbody rb;
 	public GameManager gm;
-
+	
 	public Bullet bullet;
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
 	public int score = 0;
+
+	private Bullet[] spread;
+	private Vector3 s;
 
 	bool grounded = false;
 	
@@ -49,6 +52,7 @@ public class Player1 : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.C)){
 			Shoot();
+			//Spread();
 		}
 	}
 	void OnCollisionEnter(Collision col)
@@ -101,11 +105,20 @@ public class Player1 : MonoBehaviour {
 			//transform.position -= transform.forward * walkSpeed * Time.deltaTime;
 		}
 	}
+
 	void Shoot(){
 		//Instantiate a bullet and set it to a newBullet
 		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
 		newBullet.direction = transform.forward;
-		
 	}
 
+	void Spread () {
+		//Instantiate a bullet and set it to a newBullet
+		Bullet newBullet1 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+		newBullet1.direction = transform.forward;
+		Bullet newBullet2 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+		newBullet2.direction = new Vector3 (-.2f, 0f, .2f);
+		Bullet newBullet3 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+		newBullet3.direction = new Vector3 (.2f, 0f, .2f);
+	}
 }

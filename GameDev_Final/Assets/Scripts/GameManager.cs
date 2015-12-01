@@ -18,12 +18,13 @@ public class GameManager : MonoBehaviour {
 
 	public Enemies greenEnemy1;
 	public Enemies greenEnemy2;
-//
+
 //	public Enemies Boss1;
 //	public Enemies Boss2;
 //	public Enemies Boss3;
 //	public Enemies Boss4;
 
+	public int wave = 0;
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
@@ -37,8 +38,11 @@ public class GameManager : MonoBehaviour {
 	
 	public Transform[] w1;
 	public Transform[] w2;
+	//public GameObjects[] enemyArray;
 
-	private float matchTimer = 300.0f;
+
+	private float matchTimer = 60.0f;
+	private float prepTimer = 5.0f;
 
 	private bool gameOver;
 	private bool restart;
@@ -57,7 +61,7 @@ public class GameManager : MonoBehaviour {
 
 		//InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
 		//StartCoroutine (SpawnWaves ());
-		//SpawnEnemy();
+		SpawnEnemy();
 	}
 	
 	// Update is called once per frame
@@ -75,9 +79,34 @@ public class GameManager : MonoBehaviour {
 		}
 
 		int num = 0;
+//		if (matchTimer > 0.0f) {
+//			matchTimer -= Time.deltaTime;
+//			if (matchTimer <= 10.0f && matchTimer > 9.9f) {
+////				wave = 3;
+////				CancelInvoke ();
+////				Start ();
+//			}
+//		} 
 		if (matchTimer > 0.0f) {
+			prepTimer = 10.0f;
 			matchTimer -= Time.deltaTime;
-		} 
+		} else {
+			if (prepTimer > 0.0f) {
+				prepTimer -= Time.deltaTime;
+				wave = 1;
+				CancelInvoke();
+				Start();
+			}
+			else {
+				matchTimer = 20.0f;
+			}
+		}
+
+//		if (prepTimer > 0.0f) {
+//			wave = 3;
+//			CancelInvoke ();
+//			prepTimer -= Time.deltaTime;
+//		}
 	}
 
 	void SpawnRed() {
@@ -130,7 +159,29 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnEnemy()
 	{
-	
+		switch (wave) {
+		case 0:
+			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
+			break;
+		case 1:
+			InvokeRepeating("SpawnBlue", 2.5f, 2.5f);
+			break;
+		case 2:
+			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
+			InvokeRepeating("SpawnBlue", 2.5f, 2.5f);
+			break;
+		case 3:
+			InvokeRepeating("SpawnYellow", 1.0f, 1.0f);
+			break;
+		case 4:
+			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
+			InvokeRepeating("SpawnYellow", 1.5f, 1.5f);
+			break;
+		case 5:
+			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
+			InvokeRepeating("SpawnGreen", 1.1f, 1.1f);
+			break;
+		}
 	}
 
 	IEnumerator SpawnWaves ()
@@ -141,19 +192,19 @@ public class GameManager : MonoBehaviour {
 			for (int i = 0; i < 10; i++)
 			{
 				int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
-				int spawnPointIndex2 = Random.Range (0, spawnPoints1.Length);
+				int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
-				redEnemy1.target = player1.transform;
-				Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-				
-				redEnemy2.target = player2.transform;
-				Instantiate (redEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
-
-				blueEnemy1.target = player1.transform;
-				Instantiate (blueEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-				
-				blueEnemy2.target = player2.transform;
-				Instantiate (blueEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+//				redEnemy1.target = player1.transform;
+//				Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+//				
+//				redEnemy2.target = player2.transform;
+//				Instantiate (redEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+//
+//				blueEnemy1.target = player1.transform;
+//				Instantiate (blueEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+//				
+//				blueEnemy2.target = player2.transform;
+//				Instantiate (blueEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 
 				yellowEnemy1.target = player1.transform;
 				Instantiate (yellowEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
@@ -161,15 +212,15 @@ public class GameManager : MonoBehaviour {
 				yellowEnemy2.target = player2.transform;
 				Instantiate (yellowEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 
-				greenEnemy1.pt = w1;
-				greenEnemy1.wanderIndex = Random.Range (0,6);
-				greenEnemy1.target = player1.transform;
-				Instantiate (greenEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-				
-				greenEnemy2.pt = w2;
-				greenEnemy2.wanderIndex = Random.Range (0,6);
-				greenEnemy2.target = player2.transform;
-				Instantiate (greenEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+//				greenEnemy1.pt = w1;
+//				greenEnemy1.wanderIndex = Random.Range (0,6);
+//				greenEnemy1.target = player1.transform;
+//				Instantiate (greenEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+//				
+//				greenEnemy2.pt = w2;
+//				greenEnemy2.wanderIndex = Random.Range (0,6);
+//				greenEnemy2.target = player2.transform;
+//				Instantiate (greenEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 
 
 				yield return new WaitForSeconds (spawnWait);

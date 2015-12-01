@@ -56,7 +56,7 @@ public class SpawnManager : MonoBehaviour {
 	//Should be set from inspector
 	[System.Serializable]
 	public class EnemyType{
-		public GameObject enemyPrefab;		//Drag your enemy prefab here
+		public Enemies enemyPrefab;		//Drag your enemy prefab here
 		public int[] preferedSpawnPoints;	//In case special type of enemy can (or should) spawn at specific locations, if size = 0 -> no prefered locations
 											//Numbers should be indexes of <spawnPositions> array you created before
 		public bool onStart;				//Should this enemy be spawned on beggining of actual waves, if not you can set him/them manually using wave class from inspector	

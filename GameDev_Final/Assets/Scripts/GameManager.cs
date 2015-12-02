@@ -40,12 +40,16 @@ public class GameManager : MonoBehaviour {
 	public Transform[] w2;
 	//public GameObjects[] enemyArray;
 
-
+	private GameObject[] enemyWave1;
+	private GameObject[] enemyWave2;
 	private float matchTimer = 60.0f;
 	private float prepTimer = 5.0f;
 
 	private bool gameOver;
 	private bool restart;
+
+	private int n = 0;
+	private int m = 0;
 
 
 	// Use this for initialization
@@ -62,6 +66,7 @@ public class GameManager : MonoBehaviour {
 		//InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
 		//StartCoroutine (SpawnWaves ());
 		SpawnEnemy();
+
 	}
 	
 	// Update is called once per frame
@@ -111,18 +116,19 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnRed() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
-		int spawnPointIndex2 = Random.Range (0, spawnPoints1.Length);
+		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
 		redEnemy1.target = player1.transform;
 		Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-		
+
 		redEnemy2.target = player2.transform;
 		Instantiate (redEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+
 	}
 
 	void SpawnBlue() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
-		int spawnPointIndex2 = Random.Range (0, spawnPoints1.Length);
+		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
 		blueEnemy1.target = player1.transform;
 		Instantiate (blueEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
@@ -133,7 +139,7 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnYellow() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
-		int spawnPointIndex2 = Random.Range (0, spawnPoints1.Length);
+		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
 		yellowEnemy1.target = player1.transform;
 		Instantiate (yellowEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
@@ -144,7 +150,7 @@ public class GameManager : MonoBehaviour {
 
 	void SpawnGreen() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
-		int spawnPointIndex2 = Random.Range (0, spawnPoints1.Length);
+		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
 		greenEnemy1.pt = w1;
 		greenEnemy1.wanderIndex = Random.Range (0,6);
@@ -162,20 +168,25 @@ public class GameManager : MonoBehaviour {
 		switch (wave) {
 		case 0:
 			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
+			//wave = 1;
 			break;
 		case 1:
 			InvokeRepeating("SpawnBlue", 2.5f, 2.5f);
+			//wave = 2;
 			break;
 		case 2:
 			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
 			InvokeRepeating("SpawnBlue", 2.5f, 2.5f);
+			//wave = 3;
 			break;
 		case 3:
 			InvokeRepeating("SpawnYellow", 1.0f, 1.0f);
+			//wave = 4;
 			break;
 		case 4:
 			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
 			InvokeRepeating("SpawnYellow", 1.5f, 1.5f);
+			//wave = 5;
 			break;
 		case 5:
 			InvokeRepeating("SpawnRed", 1.0f, 1.0f);

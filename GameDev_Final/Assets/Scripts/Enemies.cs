@@ -72,12 +72,14 @@ public class Enemies : MonoBehaviour {
 		}
 		if (HP < 6 && HP >= 4) {
 			transform.localScale = new Vector3(4f, 4f, 4f);
+			rb.mass = 2;
 		}
 		if (HP < 4 && HP >= 2) {
 			transform.localScale = new Vector3(5f, 5f, 5f);
 		}
 		if (HP < 2 && HP >= 1) {
 			transform.localScale = new Vector3(6f, 6f, 6f);
+			rb.mass = 3;
 		}
 	}
 

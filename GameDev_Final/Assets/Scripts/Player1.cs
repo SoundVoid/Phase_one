@@ -9,6 +9,7 @@ public class Player1 : MonoBehaviour {
 	public int maxHealth;
 	public int currentHealth;
 	public float walkSpeed;
+	public Player1WeaponControl weapCtrl;
 
 	bool grounded = false;
 	
@@ -44,9 +45,13 @@ public class Player1 : MonoBehaviour {
 			}
 		}
 
-		if(Input.GetKeyDown(KeyCode.C)){
+		if(Input.GetKeyDown(KeyCode.C)){ //&& weapCtrl.hasGun){
 			Shoot();
-		}	
+		}
+		//if (Input.GetKeyDown (KeyCode.C) && weapCtrl.hasSword) {
+		//	Swing();
+		//}
+
 	}
 	void OnCollisionEnter(Collision col)
 	{
@@ -92,9 +97,17 @@ public class Player1 : MonoBehaviour {
 	}
 	void Shoot(){
 		//Instantiate a bullet and set it to a newBullet
-		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
-		newBullet.direction = transform.forward;
+		//if (weapCtrl.hasGun) {
+			Bullet newBullet = (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+			newBullet.direction = transform.forward;
+		//}
 		
 	}
+	//void Swing(){
+	//	if (weapCtrl.currentWeapon == 0) {
+	//		weapCtrl.sword.transform.RotateAround(
+	//
+	//	}
+	//}
 
 }

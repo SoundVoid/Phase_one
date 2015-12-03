@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Timer : MonoBehaviour {
-	private float t = 60.0f;
+	private float t = 30.0f;
 	private float pt = 10.0f;
 	private string s;
 	public GameObject l;

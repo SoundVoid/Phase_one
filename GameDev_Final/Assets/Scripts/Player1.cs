@@ -10,10 +10,14 @@ public class Player1 : MonoBehaviour {
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
+
 	public int score = 0;
 
 	private Bullet[] spread;
 	private Vector3 s;
+
+	public Player1WeaponControl weapCtrl;
+
 
 	bool grounded = false;
 	
@@ -40,21 +44,27 @@ public class Player1 : MonoBehaviour {
 			}
 			if (Input.GetKey (KeyCode.A))
 			{
-				transform.RotateAround(transform.position, transform.up, -3);
+				transform.RotateAround(transform.position, transform.up, -1.5f);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
 			if (Input.GetKey (KeyCode.D))
 			{
-				transform.RotateAround(transform.position, transform.up, 3);
+				transform.RotateAround(transform.position, transform.up, 1.5f);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}
 
-		if(Input.GetKeyDown(KeyCode.C)){
+		if(Input.GetKeyDown(KeyCode.C)){ //&& weapCtrl.hasGun){
 			Shoot();
+
 			//Spread();
 		}
+
+		//if (Input.GetKeyDown (KeyCode.C) && weapCtrl.hasSword) {
+		//	Swing();
+		//}
 	}
+
 	void OnCollisionEnter(Collision col)
 	{
 		//decrease the health if the collider's tag tells us it's an 'enemy'. We set the tag in the inspector underneath the object name.
@@ -108,9 +118,23 @@ public class Player1 : MonoBehaviour {
 
 	void Shoot(){
 		//Instantiate a bullet and set it to a newBullet
+
 		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
 		newBullet.direction = transform.forward;
+
+		//if (weapCtrl.hasGun) {
+//			Bullet newBullet = (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+//			newBullet.direction = transform.forward;
+		//}
+		
+
 	}
+	//void Swing(){
+	//	if (weapCtrl.currentWeapon == 0) {
+	//		weapCtrl.sword.transform.RotateAround(
+	//
+	//	}
+	//}
 
 	void Spread () {
 		//Instantiate a bullet and set it to a newBullet

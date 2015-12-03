@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour {
 //	public Enemies Boss3;
 //	public Enemies Boss4;
 
-	public int wave = 0;
+	public int wave;
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
@@ -39,10 +39,11 @@ public class GameManager : MonoBehaviour {
 	public Transform[] w1;
 	public Transform[] w2;
 	//public GameObjects[] enemyArray;
+	public bool grace = false;
 
 	private GameObject[] enemyWave1;
 	private GameObject[] enemyWave2;
-	private float matchTimer = 60.0f;
+	private float matchTimer = 30.0f;
 	private float prepTimer = 5.0f;
 
 	private bool gameOver;
@@ -83,22 +84,14 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		int num = 0;
-//		if (matchTimer > 0.0f) {
-//			matchTimer -= Time.deltaTime;
-//			if (matchTimer <= 10.0f && matchTimer > 9.9f) {
-////				wave = 3;
-////				CancelInvoke ();
-////				Start ();
-//			}
-//		} 
 		if (matchTimer > 0.0f) {
 			prepTimer = 10.0f;
 			matchTimer -= Time.deltaTime;
 		} else {
 			if (prepTimer > 0.0f) {
 				prepTimer -= Time.deltaTime;
-				wave = 1;
+				//wave = 1;
+				wave = Random.Range (0, 5);
 				CancelInvoke();
 				Start();
 			}
@@ -107,20 +100,26 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-//		if (prepTimer > 0.0f) {
-//			wave = 3;
-//			CancelInvoke ();
-//			prepTimer -= Time.deltaTime;
-//		}
+		if (matchTimer <= 0f ) {
+			grace = true;
+		}
+		if (prepTimer <= 0f) {
+			grace = false;
+		}
+
 	}
 
 	void SpawnRed() {
+		Debug.Log (n);
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
+		redEnemy1.gm = this;
 		redEnemy1.target = player1.transform;
 		Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+		//enemyWave1[n] = (GameObject) Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
 
+		redEnemy2.gm = this;
 		redEnemy2.target = player2.transform;
 		Instantiate (redEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 
@@ -130,9 +129,11 @@ public class GameManager : MonoBehaviour {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
+		blueEnemy1.gm = this;
 		blueEnemy1.target = player1.transform;
 		Instantiate (blueEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-		
+
+		blueEnemy2.gm = this;
 		blueEnemy2.target = player2.transform;
 		Instantiate (blueEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 	}
@@ -141,9 +142,11 @@ public class GameManager : MonoBehaviour {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
+		yellowEnemy1.gm = this;
 		yellowEnemy1.target = player1.transform;
 		Instantiate (yellowEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-		
+
+		yellowEnemy2.gm = this;
 		yellowEnemy2.target = player2.transform;
 		Instantiate (yellowEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 	}
@@ -152,11 +155,13 @@ public class GameManager : MonoBehaviour {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 
+		greenEnemy1.gm = this;
 		greenEnemy1.pt = w1;
 		greenEnemy1.wanderIndex = Random.Range (0,6);
 		greenEnemy1.target = player1.transform;
 		Instantiate (greenEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-		
+
+		greenEnemy2.gm = this;
 		greenEnemy2.pt = w2;
 		greenEnemy2.wanderIndex = Random.Range (0,6);
 		greenEnemy2.target = player2.transform;
@@ -167,30 +172,36 @@ public class GameManager : MonoBehaviour {
 	{
 		switch (wave) {
 		case 0:
-			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
-			//wave = 1;
+			InvokeRepeating("SpawnRed", 1.5f, 1.5f);
 			break;
 		case 1:
-			InvokeRepeating("SpawnBlue", 2.5f, 2.5f);
-			//wave = 2;
+			InvokeRepeating("SpawnBlue", 2f, 2f);
 			break;
 		case 2:
-			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
+			InvokeRepeating("SpawnRed", 1.5f, 1.5f);
 			InvokeRepeating("SpawnBlue", 2.5f, 2.5f);
-			//wave = 3;
 			break;
 		case 3:
-			InvokeRepeating("SpawnYellow", 1.0f, 1.0f);
-			//wave = 4;
+			InvokeRepeating("SpawnYellow", 1.5f, 1.5f);
 			break;
 		case 4:
-			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
-			InvokeRepeating("SpawnYellow", 1.5f, 1.5f);
-			//wave = 5;
+			InvokeRepeating("SpawnRed", 1.5f, 1.5f);
+			InvokeRepeating("SpawnYellow", 2.5f, 2.5f);
 			break;
 		case 5:
-			InvokeRepeating("SpawnRed", 1.0f, 1.0f);
-			InvokeRepeating("SpawnGreen", 1.1f, 1.1f);
+			InvokeRepeating("SpawnRed", 2f, 2f);
+			InvokeRepeating("SpawnGreen", 1.5f, 1.5f);
+			break;
+		case 6:
+			InvokeRepeating("SpawnBlue", 2f, 2f);
+			InvokeRepeating("SpawnGreen", 1.5f, 1.5f);
+			break;
+		case 7:
+			InvokeRepeating("SpawnYellow", 2f, 2f);
+			InvokeRepeating("SpawnGreen", 1.5f, 1.5f);
+			break;
+		case 8:
+			InvokeRepeating("SpawnGreen", 1.5f, 1.5f);
 			break;
 		}
 	}

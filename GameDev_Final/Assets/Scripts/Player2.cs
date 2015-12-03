@@ -33,12 +33,12 @@ public class Player2 : MonoBehaviour {
 			}
 			if (Input.GetKey (KeyCode.J))
 			{
-				transform.RotateAround(transform.position, transform.up, -3);
+				transform.RotateAround(transform.position, transform.up, -2);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
 			if (Input.GetKey (KeyCode.L))
 			{
-				transform.RotateAround(transform.position, transform.up, 3);
+				transform.RotateAround(transform.position, transform.up, 2);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}

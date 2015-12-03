@@ -8,6 +8,7 @@ public class Enemies : MonoBehaviour {
 	public Transform[] pt;
 	public int wanderIndex;
 	public string color;
+	public GameManager gm;
 	
 	private float t = 60.0f;
 	private float walkSpeed = 3.0f;
@@ -23,6 +24,10 @@ public class Enemies : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 //		Chasing (target);
+		if (gm.grace == true) {
+			gameObject.SetActive(false);
+			Destroy(gameObject);
+		}
 
 		switch (color) {
 		case "red":
@@ -72,14 +77,14 @@ public class Enemies : MonoBehaviour {
 		}
 		if (HP < 6 && HP >= 4) {
 			transform.localScale = new Vector3(4f, 4f, 4f);
-			rb.mass = 2;
+			//rb.mass = 3;
 		}
 		if (HP < 4 && HP >= 2) {
 			transform.localScale = new Vector3(5f, 5f, 5f);
 		}
 		if (HP < 2 && HP >= 1) {
 			transform.localScale = new Vector3(6f, 6f, 6f);
-			rb.mass = 3;
+			//rb.mass = 4;
 		}
 	}
 

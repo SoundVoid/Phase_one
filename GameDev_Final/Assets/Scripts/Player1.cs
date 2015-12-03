@@ -15,6 +15,14 @@ public class Player1 : MonoBehaviour {
 	private Bullet[] spread;
 	private Vector3 s;
 
+	public AudioSource sfxShot;
+    public AudioClip sfxShoting;
+    public AudioSource sfxHurt;
+    public AudioClip sfxHurting;
+    public AudioSource sfxWalk;
+    public AudioClip sfxWalking;
+    public bool startWalking = false;
+
 	bool grounded = false;
 	
 	// Use this for initialization
@@ -37,6 +45,13 @@ public class Player1 : MonoBehaviour {
 			if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.S))
 			{
 				FixedUpdate();
+
+				if (!startWalking)
+				{
+					sfxWalk.play();
+
+					startWalking = true;
+				}
 			}
 			if (Input.GetKey (KeyCode.A))
 			{
@@ -47,6 +62,16 @@ public class Player1 : MonoBehaviour {
 			{
 				transform.RotateAround(transform.position, transform.up, 3);
 				//transform.position += transform.right * 8 * Time.deltaTime;
+			}
+
+			if (startWalking)
+			{
+				if (Input.GetKeyUp (KeyCode.W)|| Input.GetKeyUp (KeyCode.S))
+				{
+					sfxWalk.Stop();
+
+					startWalking = false;
+				}
 			}
 		}
 
@@ -73,6 +98,8 @@ public class Player1 : MonoBehaviour {
 		if (col.collider.tag == "Enemy")
 		{
 			currentHealth -= 0.5f;
+
+			sfxHurt.PlayOneShot(sfxHurting);
 		}
 	}
 	
@@ -110,6 +137,8 @@ public class Player1 : MonoBehaviour {
 		//Instantiate a bullet and set it to a newBullet
 		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
 		newBullet.direction = transform.forward;
+		
+		sfxShot.PlayOneShot(sfxShoting);
 	}
 
 	void Spread () {

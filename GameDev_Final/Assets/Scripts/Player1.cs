@@ -12,6 +12,7 @@ public class Player1 : MonoBehaviour {
 	public float walkSpeed;
 
 	public int score = 0;
+	public bool dead = false;
 
 	private Bullet[] spread;
 	private Vector3 s;
@@ -33,6 +34,7 @@ public class Player1 : MonoBehaviour {
 		//if the player's health is zero, deactivate the player
 		if (currentHealth <= 0)
 		{
+			dead = true;
 			gameObject.SetActive(false);
 			gm.GameOver ();
 		}

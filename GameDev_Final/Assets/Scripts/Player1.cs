@@ -14,6 +14,7 @@ public class Player1 : MonoBehaviour {
 
 	public int score = 0;
 	public bool dead = false;
+	public bool gotItem = false;
 
 	private Bullet[] spread;
 	private Vector3 s;

@@ -11,6 +11,7 @@ public class Player2 : MonoBehaviour {
 	public float currentHealth;
 	public float walkSpeed;
 	public bool dead = false;
+	public bool gotItem = false;
 
 	private int score;
 

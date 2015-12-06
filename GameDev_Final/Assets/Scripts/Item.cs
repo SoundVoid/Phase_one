@@ -24,9 +24,11 @@ public class Item : MonoBehaviour {
 					col.GetComponent<Collider>().GetComponent<Player1> ().currentHealth += Random.Range (10, 25);
 				}
 				if (col.GetComponent<Collider>().tag == "Player1") {
+					col.GetComponent<Player1>().gotItem = true;
 					WM.items1[2].SetActive(false);
 				}
 				if (col.GetComponent<Collider>().tag == "Player2") {
+					col.GetComponent<Player2>().gotItem = true;
 					WM.items2[2].SetActive(false);
 				}
 			}
@@ -34,9 +36,11 @@ public class Item : MonoBehaviour {
 				Debug.Log ("Active");
 				//Temporally Help Current Player
 				if (col.GetComponent<Collider>().tag == "Player1") {
+					col.GetComponent<Player1>().gotItem = true;
 					WM.items1[2].SetActive(false);
 				}
 				if (col.GetComponent<Collider>().tag == "Player2") {
+					col.GetComponent<Player2>().gotItem = true;
 					WM.items2[2].SetActive(false);
 				}
 			}
@@ -44,10 +48,12 @@ public class Item : MonoBehaviour {
 				Debug.Log ("Active");
 				//Temporally Hinder Opponet
 				if (col.GetComponent<Collider>().tag == "Player1") {
+					col.GetComponent<Player1>().gotItem = true;
 					WM.items1[0].SetActive(false);
 					WM.items1[1].SetActive(false);
 				}
 				if (col.GetComponent<Collider>().tag == "Player2") {
+					col.GetComponent<Player2>().gotItem = true;
 					WM.items2[0].SetActive(false);
 					WM.items2[1].SetActive(false);
 				}

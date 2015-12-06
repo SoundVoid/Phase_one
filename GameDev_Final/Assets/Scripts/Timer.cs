@@ -27,7 +27,7 @@ public class Timer : MonoBehaviour {
 				s = pt.ToString ("#.##");
 			}
 			else {
-				GetComponent<TextMesh> ().color = Color.white;
+				GetComponent<TextMesh> ().color = Color.black;
 				t = 20.0f;
 			}
 		}

@@ -4,7 +4,8 @@ using System.Collections;
 public class Player1 : MonoBehaviour {
 	
 	Rigidbody rb;
-	public GameManager gm;
+
+	public GameObject opponet;
 	
 	public Bullet bullet;
 	public float maxHealth;
@@ -12,6 +13,7 @@ public class Player1 : MonoBehaviour {
 	public float walkSpeed;
 
 	public int score = 0;
+	public bool dead = false;
 
 	private Bullet[] spread;
 	private Vector3 s;
@@ -33,8 +35,8 @@ public class Player1 : MonoBehaviour {
 		//if the player's health is zero, deactivate the player
 		if (currentHealth <= 0)
 		{
+			dead = true;
 			gameObject.SetActive(false);
-			gm.GameOver ();
 		}
 
 		if (gameObject.tag == "Player1") {
@@ -94,6 +96,7 @@ public class Player1 : MonoBehaviour {
 		}
 	}
 	
+
 	void FixedUpdate()
 	{
 //		float moveHorizontal = Input.GetAxis ("Horizontal");

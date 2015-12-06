@@ -120,7 +120,7 @@ public class Enemies : MonoBehaviour {
 
 	void Attack (Transform t){
 		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t.position - transform.position), .2f);
-		transform.position += transform.forward * 8.0f * Time.deltaTime;
+		transform.position += transform.forward * 3.0f * Time.deltaTime;
 	}
 
 	public void Killed (){

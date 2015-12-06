@@ -4,10 +4,14 @@ using System.Collections;
 public class Player2 : MonoBehaviour {
 	Rigidbody rb;
 
+	public GameObject opponet;
+
 	public Bullet bullet;
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
+	public bool dead = false;
+
 	private int score;
 
 	bool grounded = false;
@@ -24,6 +28,7 @@ public class Player2 : MonoBehaviour {
 		//if the player's health is zero, deactivate the player
 		if (currentHealth <= 0)
 		{
+			dead = true;
 			gameObject.SetActive(false);
 		}
 		if (gameObject.tag == "Player2") {
@@ -74,7 +79,7 @@ public class Player2 : MonoBehaviour {
 			grounded = false;
 		}
 	}
-	
+
 	void FixedUpdate()
 	{
 		if (Input.GetKey(KeyCode.I))

@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour {
 	private GameObject[] enemyWave1;
 	private GameObject[] enemyWave2;
 	private float matchTimer = 30.0f;
-	private float prepTimer = 5.0f;
+	public float prepTimer = 5.0f;
 
 	private bool gameOver;
 	private bool restart;
@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		int temp;
 		healthBar.value = player1.currentHealth;
 		healthBar2.value = player2.currentHealth;
 
@@ -91,7 +92,11 @@ public class GameManager : MonoBehaviour {
 			if (prepTimer > 0.0f) {
 				prepTimer -= Time.deltaTime;
 				//wave = 1;
-				wave = Random.Range (0, 5);
+				temp = wave;
+				wave = Random.Range (1, 8);
+				if (temp == wave) {
+					wave = (wave + temp) % 8;
+				}
 				CancelInvoke();
 				Start();
 			}
@@ -110,7 +115,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void SpawnRed() {
-		Debug.Log (n);
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 

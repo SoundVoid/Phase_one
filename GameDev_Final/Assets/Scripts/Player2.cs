@@ -4,6 +4,8 @@ using System.Collections;
 public class Player2 : MonoBehaviour {
 	Rigidbody rb;
 
+	public GameObject opponet;
+
 	public Bullet bullet;
 	public float maxHealth;
 	public float currentHealth;
@@ -77,7 +79,7 @@ public class Player2 : MonoBehaviour {
 			grounded = false;
 		}
 	}
-	
+
 	void FixedUpdate()
 	{
 		if (Input.GetKey(KeyCode.I))

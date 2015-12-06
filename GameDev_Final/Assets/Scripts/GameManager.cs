@@ -115,7 +115,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void SpawnRed() {
-		Debug.Log (n);
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 

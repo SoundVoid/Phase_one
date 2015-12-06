@@ -110,6 +110,8 @@ public class GameManager : MonoBehaviour {
 		}
 		if (prepTimer <= 0f) {
 			grace = false;
+			player1.gotItem = false;
+			player2.gotItem = false;
 		}
 
 	}

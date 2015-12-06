@@ -4,10 +4,17 @@ using System.Collections;
 public class Player2 : MonoBehaviour {
 	Rigidbody rb;
 
+	public GameObject opponet;
+
 	public Bullet bullet;
-	public int maxHealth;
-	public int currentHealth;
+	public float maxHealth;
+	public float currentHealth;
 	public float walkSpeed;
+	public bool dead = false;
+	public bool gotItem = false;
+
+	private int score;
+
 	bool grounded = false;
 	
 	// Use this for initialization
@@ -22,6 +29,7 @@ public class Player2 : MonoBehaviour {
 		//if the player's health is zero, deactivate the player
 		if (currentHealth <= 0)
 		{
+			dead = true;
 			gameObject.SetActive(false);
 		}
 		if (gameObject.tag == "Player2") {
@@ -31,12 +39,12 @@ public class Player2 : MonoBehaviour {
 			}
 			if (Input.GetKey (KeyCode.J))
 			{
-				transform.RotateAround(transform.position, transform.up, -3);
+				transform.RotateAround(transform.position, transform.up, -2);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
 			if (Input.GetKey (KeyCode.L))
 			{
-				transform.RotateAround(transform.position, transform.up, 3);
+				transform.RotateAround(transform.position, transform.up, 2);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}
@@ -49,7 +57,7 @@ public class Player2 : MonoBehaviour {
 		//decrease the health if the collider's tag tells us it's an 'enemy'. We set the tag in the inspector underneath the object name.
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 1;
+			currentHealth -= 0.5f;
 		}
 		
 	}
@@ -61,7 +69,7 @@ public class Player2 : MonoBehaviour {
 		}
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 1;
+			currentHealth -= 0.5f;
 		}
 	}
 	
@@ -72,7 +80,7 @@ public class Player2 : MonoBehaviour {
 			grounded = false;
 		}
 	}
-	
+
 	void FixedUpdate()
 	{
 		if (Input.GetKey(KeyCode.I))

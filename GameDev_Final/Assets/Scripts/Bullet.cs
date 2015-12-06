@@ -20,10 +20,10 @@ public class Bullet : MonoBehaviour {
 		//get rid of enemies
 		// check if its an enemy
 		if (col.collider.tag == "Enemy") {
-			///set enemy to false
-			col.collider.gameObject.SetActive(false);
+			//set enemy to false
+			col.collider.gameObject.GetComponent<Enemies> ().HP -= 1;
+			col.collider.gameObject.GetComponent<Enemies> ().Killed();
 			Destroy(gameObject);
-
 		}
 		if (col.collider.tag == "Wall") {
 			Destroy(gameObject);

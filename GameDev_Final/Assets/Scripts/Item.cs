@@ -40,6 +40,11 @@ public class Item : MonoBehaviour {
 			if (gameObject.tag == "Buff") {
 				Debug.Log ("Active");
 				//Temporally Help Current Player
+
+				// Increase Damage
+				// Sheild limit
+				// ????
+
 				if (col.GetComponent<Collider>().tag == "Player1") {
 					col.GetComponent<Player1>().gotItem = true;
 					WM.items1[2].SetActive(false);
@@ -52,6 +57,11 @@ public class Item : MonoBehaviour {
 			if (gameObject.tag == "Debuff") {
 				Debug.Log ("Active");
 				//Temporally Hinder Opponet
+
+				// Slow Down
+				// Invert Control
+				// Increase Damage
+
 				if (col.GetComponent<Collider>().tag == "Player1") {
 					col.GetComponent<Player1>().gotItem = true;
 					WM.items1[0].SetActive(false);

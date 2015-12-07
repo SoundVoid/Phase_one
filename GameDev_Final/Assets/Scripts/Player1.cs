@@ -2,15 +2,26 @@
 using System.Collections;
 
 public class Player1 : MonoBehaviour {
-	
+	public WeaponController1 weaponController;
+	public GameObject weapon;
 	Rigidbody rb;
 
+	public const float setDrag = .9f;
+	public const float setRight = 1.5f;
+	public const int setGunDamage = 1;
+	public const int setAxeDamage = 3;
+
 	public GameObject opponet;
-	
+
 	public Bullet bullet;
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
+	public float turnRight;
+	public float gunDamage;
+	public float axeDamage;
+	public int totalScore = 0;
+	public float t = 1f;
 
 	public int score = 0;
 	public bool dead = false;
@@ -19,7 +30,8 @@ public class Player1 : MonoBehaviour {
 	private Bullet[] spread;
 	private Vector3 s;
 
-	public Player1WeaponControl weapCtrl;
+	public AudioSource sfx;
+	public AudioClip sfx_shoot;
 
 
 	bool grounded = false;
@@ -47,21 +59,37 @@ public class Player1 : MonoBehaviour {
 			}
 			if (Input.GetKey (KeyCode.A))
 			{
-				transform.RotateAround(transform.position, transform.up, -1.5f);
+				transform.RotateAround(transform.position, transform.up, -2.5f);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
 			if (Input.GetKey (KeyCode.D))
 			{
-				transform.RotateAround(transform.position, transform.up, 1.5f);
+				transform.RotateAround(transform.position, transform.up, 2.5f);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}
 
-		if(Input.GetKeyDown(KeyCode.C)){ //&& weapCtrl.hasGun){
-			Shoot();
+		if(Input.GetKeyDown(KeyCode.C)){ 
+			if(weaponController.axeEquipped == false){
+				weapon.SetActive(false);
+				Shoot();
+			}
+			if(weaponController.axeEquipped == true){
+				Debug.Log ("act");
+//				if (t > 0f) {
+//					t -= Time.deltaTime;
+//					gameObject.GetComponent<Animator> ().SetBool("axeS", true);
+//				}
+//				if (t <= 0f) {
+//					gameObject.GetComponent<Animator> ().SetBool("axeS", false);
+//				}
+				gameObject.GetComponent<Animator> ().SetBool("axeS", true);
 
-			//Spread();
+			}
 		}
+//		if (!(Input.GetKeyDown (KeyCode.C))) {
+//			gameObject.GetComponent<Animator> ().SetBool("axeS", false);
+//		}
 
 		//if (Input.GetKeyDown (KeyCode.C) && weapCtrl.hasSword) {
 		//	Swing();
@@ -122,7 +150,7 @@ public class Player1 : MonoBehaviour {
 
 	void Shoot(){
 		//Instantiate a bullet and set it to a newBullet
-
+		sfx.PlayOneShot(sfx_shoot);
 		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
 		newBullet.direction = transform.forward;
 
@@ -133,12 +161,7 @@ public class Player1 : MonoBehaviour {
 		
 
 	}
-	//void Swing(){
-	//	if (weapCtrl.currentWeapon == 0) {
-	//		weapCtrl.sword.transform.RotateAround(
-	//
-	//	}
-	//}
+
 
 	void Spread () {
 		//Instantiate a bullet and set it to a newBullet

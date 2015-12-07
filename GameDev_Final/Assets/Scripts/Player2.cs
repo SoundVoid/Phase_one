@@ -4,16 +4,28 @@ using System.Collections;
 public class Player2 : MonoBehaviour {
 	Rigidbody rb;
 
+	public const float setDrag = .9f;
+	public const float setRight = 1.5f;
+	public const int setGunDamage = 1;
+	public const int setAxeDamage = 3;
+
 	public GameObject opponet;
 
 	public Bullet bullet;
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
+	public float turnRight;
+	public float gunDamage;
+	public float axeDamage;
+	public int totalScore = 0;
+
 	public bool dead = false;
 	public bool gotItem = false;
 
 	private int score;
+	public AudioSource sfx;
+	public AudioClip sfx_shoot;
 
 	bool grounded = false;
 	
@@ -39,12 +51,12 @@ public class Player2 : MonoBehaviour {
 			}
 			if (Input.GetKey (KeyCode.J))
 			{
-				transform.RotateAround(transform.position, transform.up, -2);
+				transform.RotateAround(transform.position, transform.up, -2.5f);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
 			if (Input.GetKey (KeyCode.L))
 			{
-				transform.RotateAround(transform.position, transform.up, 2);
+				transform.RotateAround(transform.position, transform.up, 2.5f);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}
@@ -95,6 +107,7 @@ public class Player2 : MonoBehaviour {
 		}
 	}
 	void Shoot(){
+		sfx.PlayOneShot(sfx_shoot);
 		//Instantiate a bullet and set it to a newBullet
 		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
 		newBullet.direction = transform.forward;

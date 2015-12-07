@@ -49,11 +49,12 @@ public class Player1 : MonoBehaviour {
 
 				if (!startWalking)
 				{
-					sfxWalk.play();
+					sfxWalk.Play();
 
 					startWalking = true;
 				}
 			}
+
 			if (Input.GetKey (KeyCode.A))
 			{
 				transform.RotateAround(transform.position, transform.up, -3);

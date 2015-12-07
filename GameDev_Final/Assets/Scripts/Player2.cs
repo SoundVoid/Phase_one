@@ -43,7 +43,7 @@ public class Player2 : MonoBehaviour {
 
 				if (!startWalking)
 				{
-					sfxWalk.play();
+					sfxWalk.Play();
 
 					startWalking = true;
 				}

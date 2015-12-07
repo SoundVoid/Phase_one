@@ -8,7 +8,8 @@ public class Player2 : MonoBehaviour {
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
-	private int score;
+	private int score = 0;
+	public int totalScore = 0;
 
 	public AudioSource sfxShot;
     public AudioClip sfxShoting;

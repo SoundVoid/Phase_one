@@ -14,8 +14,11 @@ public class Enemies : MonoBehaviour {
 	private float runSpeed = 2.0f;
 	public int HP;
 
-	public int player1Score = 0;
-	public int player2Score = 0;
+	//public int player1Score = 0;
+	//public int player2Score = 0;
+
+	public Player1 p1;
+	public Player2 p2;
 
 	
 	// Use this for initialization
@@ -128,19 +131,19 @@ public class Enemies : MonoBehaviour {
 			{
 				if (color == "red")
 				{
-					player1Score += 1;
+					p1.totalScore += 1;
 				}
 				if (color == "blue")
 				{
-					player1Score += 2;
+					p1.totalScore += 2;
 				}
 				if (color == "yellow")
 				{
-					player1Score += 3;
+					p1.totalScore += 3;
 				}
 				if (color == "green")
 				{
-					player1Score += 4;
+					p1.totalScore += 4;
 				}
 			}
 
@@ -148,19 +151,19 @@ public class Enemies : MonoBehaviour {
 			{
 				if (color == "red")
 				{
-					player2Score += 1;
+					p2.totalScore += 1;
 				}
 				if (color == "blue")
 				{
-					player2Score += 2;
+					p2.totalScore += 2;
 				}
 				if (color == "yellow")
 				{
-					player2Score += 3;
+					p2.totalScore += 3;
 				}
 				if (color == "green")
 				{
-					player2Score += 4;
+					p2.totalScore += 4;
 				}
 			}
 			gameObject.SetActive(false);

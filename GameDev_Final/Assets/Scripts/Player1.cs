@@ -11,6 +11,7 @@ public class Player1 : MonoBehaviour {
 	public float currentHealth;
 	public float walkSpeed;
 	public int score = 0;
+	public int totalScore = 0;
 
 	private Bullet[] spread;
 	private Vector3 s;

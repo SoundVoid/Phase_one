@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Player1 : MonoBehaviour {
-	
+	public WeaponController1 weaponController;
 	Rigidbody rb;
 
 	public GameObject opponet;
@@ -57,9 +57,10 @@ public class Player1 : MonoBehaviour {
 			}
 		}
 
-		if(Input.GetKeyDown(KeyCode.C)){ //&& weapCtrl.hasGun){
+		if(Input.GetKeyDown(KeyCode.C)){ 
+			if(weaponController.axeEquipped == false){
 			Shoot();
-
+			}
 			//Spread();
 		}
 

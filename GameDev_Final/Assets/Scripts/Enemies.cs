@@ -14,6 +14,9 @@ public class Enemies : MonoBehaviour {
 	private float runSpeed = 2.0f;
 	public int HP;
 
+	public int player1Score = 0;
+	public int player2Score = 0;
+
 	
 	// Use this for initialization
 	void Start () {
@@ -121,6 +124,45 @@ public class Enemies : MonoBehaviour {
 	public void Killed (){
 		//set enemy to false
 		if (HP == 0){
+			if (gameObject.transform.position.x < 0)
+			{
+				if (color == "red")
+				{
+					player1Score += 1;
+				}
+				if (color == "blue")
+				{
+					player1Score += 2;
+				}
+				if (color == "yellow")
+				{
+					player1Score += 3;
+				}
+				if (color == "green")
+				{
+					player1Score += 4;
+				}
+			}
+
+			if (gameObject.transform.position.x > 0)
+			{
+				if (color == "red")
+				{
+					player2Score += 1;
+				}
+				if (color == "blue")
+				{
+					player2Score += 2;
+				}
+				if (color == "yellow")
+				{
+					player2Score += 3;
+				}
+				if (color == "green")
+				{
+					player2Score += 4;
+				}
+			}
 			gameObject.SetActive(false);
 			Destroy(gameObject);
 		}

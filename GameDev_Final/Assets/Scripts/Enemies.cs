@@ -2,26 +2,19 @@
 using System.Collections;
 
 public class Enemies : MonoBehaviour {
-	
+
 	Rigidbody rb;
 	public Transform target;
 	public Transform[] pt;
 	public int wanderIndex;
 	public string color;
-<<<<<<< HEAD
-=======
 	public GameManager gm;
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 	
 	private float t = 60.0f;
 	private float walkSpeed = 3.0f;
 	private float runSpeed = 2.0f;
 	public int HP;
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 	
 	// Use this for initialization
 	void Start () {
@@ -30,17 +23,12 @@ public class Enemies : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
-		//		Chasing (target);
-		
-=======
 //		Chasing (target);
 		if (gm.grace == true) {
 			gameObject.SetActive(false);
 			Destroy(gameObject);
 		}
 
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 		switch (color) {
 		case "red":
 			Chasing (target);
@@ -51,18 +39,14 @@ public class Enemies : MonoBehaviour {
 			break;
 		case "yellow":
 			Chasing (target);
-<<<<<<< HEAD
-			//			Attack();
-=======
 //			Attack();
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 			break;
 		case "green":
 			Wandering ();
 			break;
 		}
 	}
-	
+
 	void Chasing (Transform t)
 	{	
 		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t.position - transform.position), .2f);
@@ -81,15 +65,9 @@ public class Enemies : MonoBehaviour {
 		} else {
 			Chasing(target);
 		}
-<<<<<<< HEAD
-		
-	}
-	
-=======
 
 	}
 
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 	void Tank (){
 		if (HP < 10 && HP >= 8) {
 			transform.localScale = new Vector3(2f, 2f, 2f);
@@ -99,28 +77,17 @@ public class Enemies : MonoBehaviour {
 		}
 		if (HP < 6 && HP >= 4) {
 			transform.localScale = new Vector3(4f, 4f, 4f);
-<<<<<<< HEAD
-			rb.mass = 2;
-=======
 			//rb.mass = 3;
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 		}
 		if (HP < 4 && HP >= 2) {
 			transform.localScale = new Vector3(5f, 5f, 5f);
 		}
 		if (HP < 2 && HP >= 1) {
 			transform.localScale = new Vector3(6f, 6f, 6f);
-<<<<<<< HEAD
-			rb.mass = 3;
-		}
-	}
-	
-=======
 			//rb.mass = 4;
 		}
 	}
 
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 	void OnTriggerEnter (Collider col) {
 		if (color == "yellow") {
 			if (target.tag == "Player1") {
@@ -135,11 +102,7 @@ public class Enemies : MonoBehaviour {
 			}
 		}
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 	void OnTriggerStay (Collider col) {
 		if (color == "yellow") {
 			if (target.tag == "Player1") {
@@ -153,22 +116,6 @@ public class Enemies : MonoBehaviour {
 				}
 			}
 		}
-<<<<<<< HEAD
-	}
-	
-	void Attack (Transform t){
-		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t.position - transform.position), .2f);
-		transform.position += transform.forward * 8.0f * Time.deltaTime;
-	}
-	
-	public void Killed (){
-		//set enemy to false
-		if (HP == 0){
-			gameObject.SetActive(false);
-			Destroy(gameObject);
-		}
-	}
-=======
 	}
 
 	void Attack (Transform t){
@@ -183,5 +130,4 @@ public class Enemies : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
->>>>>>> bbe6fe17af84e5e9e36e72548c36eb0b04a4f88a
 }

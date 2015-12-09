@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class WeaponController1 : MonoBehaviour {
-	public bool axeEquipped = false;
+	public bool axeEquipped;
 	public GameObject axe;
 	Animator anim;
 	// Use this for initialization
@@ -25,20 +25,9 @@ public class WeaponController1 : MonoBehaviour {
 			}
 		}
 
-	if (axeEquipped) {
-			if (Input.GetKeyDown (KeyCode.C)) {
-		
-			
-				anim.SetBool ("axeSwing", true);
-				
-			}
-
-
-		} else {
-			anim.SetBool ("axeSwing", false);
-		}
-	}
 
 	}
+
+}
 
 

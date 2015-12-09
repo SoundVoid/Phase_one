@@ -14,6 +14,7 @@ public class Enemies : MonoBehaviour {
 	private float walkSpeed = 3.0f;
 	private float runSpeed = 2.0f;
 	public int HP;
+	public GameObject p;
 
 	
 	// Use this for initialization
@@ -123,11 +124,59 @@ public class Enemies : MonoBehaviour {
 		transform.position += transform.forward * 3.0f * Time.deltaTime;
 	}
 
+//	public void Killed (){
+//		//set enemy to false
+//		if (HP == 0){
+//			gameObject.SetActive(false);
+//			Destroy(gameObject);
+//		}
+//	}
 	public void Killed (){
 		//set enemy to false
 		if (HP == 0){
+			//p.SetActive(true);
+			if (target.tag == "Player1")
+			{
+				if (color == "red")
+				{
+					target.GetComponent<Player1> ().totalScore += 1;
+				}
+				if (color == "blue")
+				{
+					target.GetComponent<Player1> ().totalScore += 2;
+				}
+				if (color == "yellow")
+				{
+					target.GetComponent<Player1> ().totalScore += 3;
+				}
+				if (color == "green")
+				{
+					target.GetComponent<Player1> ().totalScore += 4;
+				}
+			}
+			
+			if (target.tag == "Player2")
+			{
+				if (color == "red")
+				{
+					target.GetComponent<Player2> ().totalScore += 1;
+				}
+				if (color == "blue")
+				{
+					target.GetComponent<Player2> ().totalScore += 2;
+				}
+				if (color == "yellow")
+				{
+					target.GetComponent<Player2> ().totalScore += 3;
+				}
+				if (color == "green")
+				{
+					target.GetComponent<Player2> ().totalScore += 4;
+				}
+			}
 			gameObject.SetActive(false);
 			Destroy(gameObject);
+			//p.SetActive(false);
 		}
 	}
 }

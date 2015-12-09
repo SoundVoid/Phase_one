@@ -11,7 +11,7 @@ public class ScoreKeeper : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		string s = p.score.ToString ();
-		GetComponent<TextMesh> ().text = s;
+//		string s = p.score.ToString ();
+//		GetComponent<TextMesh> ().text = s;
 	}
 }

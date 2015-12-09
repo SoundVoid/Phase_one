@@ -25,20 +25,8 @@ public class WeaponController1 : MonoBehaviour {
 			}
 		}
 
-	if (axeEquipped) {
-			if (Input.GetKeyDown (KeyCode.C)) {
-		
-			
-				anim.SetBool ("axeSwing", true);
-				
-			}
-
-
-		} else {
-			anim.SetBool ("axeSwing", false);
-		}
 	}
 
-	}
+}
 
 

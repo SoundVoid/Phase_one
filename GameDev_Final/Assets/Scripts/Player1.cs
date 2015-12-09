@@ -1,31 +1,34 @@
-﻿ using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Player1 : MonoBehaviour {
 	public WeaponController1 weaponController;
 	public GameObject weapon;
 	Rigidbody rb;
 
-	public const float setDrag = .9f;
-	public const float setRight = 1.5f;
-	public const int setGunDamage = 1;
-	public const int setAxeDamage = 3;
+	public float setDrag = .9f;
+	public float setRight = 1.5f;
+	public int setGunDamage = 1;
+	public int setAxeDamage = 3;
 
 	public GameObject opponet;
+	public GameObject sheild;
 
 	public Bullet bullet;
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
-	public float turnRight;
+	public float turnRight = 2.5f;
 	public float gunDamage;
 	public float axeDamage;
 	public int totalScore = 0;
 	public float t = 1f;
-
-	public int score = 0;
+	
 	public bool dead = false;
 	public bool gotItem = false;
+	public bool sh = false;
+	private float shHP = 25f;
 
 	private Bullet[] spread;
 	private Vector3 s;
@@ -33,12 +36,14 @@ public class Player1 : MonoBehaviour {
 	public AudioSource sfx;
 	public AudioClip sfx_shoot;
 
+	public Image p;
 
 	bool grounded = false;
+	private bool wall = false;
 	
 	// Use this for initialization
 	void Start () {
-		
+
 		rb = GetComponent<Rigidbody>();
 	
 	}
@@ -46,10 +51,20 @@ public class Player1 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//if the player's health is zero, deactivate the player
+		//p.rectTransform.anchoredPosition = transform.TransformVector(gameObject.transform.position.x - 54.5f, gameObject.transform.position.z, 0f);
+		Debug.Log (p.rectTransform.position.x);
+		//p.rectTransform.anchoredPosition.x.Equals (gameObject.transform.position.x - 53.5f);
+		//p.rectTransform.anchoredPosition.y.Equals (gameObject.transform.position.z - 15.4f);
+		Debug.Log (p.rectTransform.position.x);
+
+		wall = false;
 		if (currentHealth <= 0)
 		{
 			dead = true;
 			gameObject.SetActive(false);
+		}
+		if (sh == true) {
+			sheild.SetActive(true);
 		}
 
 		if (gameObject.tag == "Player1") {
@@ -59,12 +74,14 @@ public class Player1 : MonoBehaviour {
 			}
 			if (Input.GetKey (KeyCode.A))
 			{
-				transform.RotateAround(transform.position, transform.up, -2.5f);
+				p.GetComponent<RectTransform> ().transform.RotateAround(p.rectTransform.position, p.rectTransform.forward, turnRight);
+				transform.RotateAround(transform.position, transform.up, -turnRight);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
 			if (Input.GetKey (KeyCode.D))
 			{
-				transform.RotateAround(transform.position, transform.up, 2.5f);
+				p.GetComponent<RectTransform> ().transform.RotateAround(p.rectTransform.position, p.rectTransform.forward, -turnRight);
+				transform.RotateAround(transform.position, transform.up, turnRight);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}
@@ -101,7 +118,17 @@ public class Player1 : MonoBehaviour {
 		//decrease the health if the collider's tag tells us it's an 'enemy'. We set the tag in the inspector underneath the object name.
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 0.5f;
+			if (sh == false) {
+				currentHealth -= 0.5f;
+			}
+			if (sh == true) {
+				shHP -= 0.5f;
+			}
+			if (shHP <= 0f) {
+				sheild.SetActive(false);
+				sh = false;
+				shHP = 25f;
+			}
 		}
 		
 	}
@@ -113,7 +140,15 @@ public class Player1 : MonoBehaviour {
 		}
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 0.5f;
+			if (sh == false) {
+				currentHealth -= 0.5f;
+			}
+			if (sh == true) {
+				shHP -= 0.5f;
+			}
+			if (shHP <= 0f) {
+				sheild.SetActive(false);
+			}
 		}
 	}
 	
@@ -128,21 +163,16 @@ public class Player1 : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-//		float moveHorizontal = Input.GetAxis ("Horizontal");
-//		float moveVertical = Input.GetAxis ("Vertical");
-//
-//		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-//		rb.velocity = movement * walkSpeed;
-//
-//		rb.rotation = Quaternion.Euler (0.0f, 0.0f, rb.velocity.x);
 
 		if (Input.GetKey(KeyCode.W))
 		{
+			//p.GetComponent<RectTransform> ().transform.position += p.rectTransform.up * Time.deltaTime * walkSpeed;
 			rb.AddForce(transform.forward * walkSpeed, ForceMode.Acceleration);
 			//transform.position += transform.forward * walkSpeed * Time.deltaTime;
 		}
 		if (Input.GetKey(KeyCode.S))
 		{
+			//p.GetComponent<RectTransform> ().transform.position -= p.rectTransform.up * Time.deltaTime * walkSpeed;
 			rb.AddForce(-transform.forward * walkSpeed, ForceMode.Acceleration);
 			//transform.position -= transform.forward * walkSpeed * Time.deltaTime;
 		}

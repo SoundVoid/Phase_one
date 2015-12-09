@@ -1,31 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Player2 : MonoBehaviour {
 	Rigidbody rb;
 
-	public const float setDrag = .9f;
-	public const float setRight = 1.5f;
-	public const int setGunDamage = 1;
-	public const int setAxeDamage = 3;
+	public float setDrag = .9f;
+	public float setRight = 1.5f;
+	public int setGunDamage = 1;
+	public int setAxeDamage = 3;
 
 	public GameObject opponet;
+	public GameObject sheild;
 
 	public Bullet bullet;
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
-	public float turnRight;
+	public float turnRight = 2.5f;
 	public float gunDamage;
 	public float axeDamage;
 	public int totalScore = 0;
 
 	public bool dead = false;
 	public bool gotItem = false;
+	public bool sh = false;
+	private float shHP = 25f;
 
 	private int score;
 	public AudioSource sfx;
 	public AudioClip sfx_shoot;
+
+	public Image p;
 
 	bool grounded = false;
 	
@@ -44,6 +50,9 @@ public class Player2 : MonoBehaviour {
 			dead = true;
 			gameObject.SetActive(false);
 		}
+		if (sh == true) {
+			sheild.SetActive(true);
+		}
 		if (gameObject.tag == "Player2") {
 			if (Input.GetKey (KeyCode.I) || Input.GetKey (KeyCode.K))
 			{
@@ -51,12 +60,14 @@ public class Player2 : MonoBehaviour {
 			}
 			if (Input.GetKey (KeyCode.J))
 			{
-				transform.RotateAround(transform.position, transform.up, -2.5f);
+				p.GetComponent<RectTransform> ().transform.RotateAround(p.rectTransform.position, p.rectTransform.forward, turnRight);
+				transform.RotateAround(transform.position, transform.up, -turnRight);
 				//transform.position -= transform.right * 8 * Time.deltaTime;
 			}
 			if (Input.GetKey (KeyCode.L))
 			{
-				transform.RotateAround(transform.position, transform.up, 2.5f);
+				p.GetComponent<RectTransform> ().transform.RotateAround(p.rectTransform.position, p.rectTransform.forward, -turnRight);
+				transform.RotateAround(transform.position, transform.up, turnRight);
 				//transform.position += transform.right * 8 * Time.deltaTime;
 			}
 		}
@@ -69,7 +80,17 @@ public class Player2 : MonoBehaviour {
 		//decrease the health if the collider's tag tells us it's an 'enemy'. We set the tag in the inspector underneath the object name.
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 0.5f;
+			if (sh == false) {
+				currentHealth -= 0.5f;
+			}
+			if (sh == true) {
+				shHP -= 0.5f;
+			}
+			if (shHP <= 0f) {
+				sheild.SetActive(false);
+				sh = false;
+				shHP = 25f;
+			}
 		}
 		
 	}
@@ -81,7 +102,15 @@ public class Player2 : MonoBehaviour {
 		}
 		if (col.collider.tag == "Enemy")
 		{
-			currentHealth -= 0.5f;
+			if (sh == false) {
+				currentHealth -= 0.5f;
+			}
+			if (sh == true) {
+				shHP -= 0.5f;
+			}
+			if (shHP <= 0f) {
+				sheild.SetActive(false);
+			}
 		}
 	}
 	

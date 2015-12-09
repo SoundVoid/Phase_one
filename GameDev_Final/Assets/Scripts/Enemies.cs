@@ -14,6 +14,7 @@ public class Enemies : MonoBehaviour {
 	private float walkSpeed = 3.0f;
 	private float runSpeed = 2.0f;
 	public int HP;
+	public GameObject p;
 
 	
 	// Use this for initialization
@@ -133,6 +134,7 @@ public class Enemies : MonoBehaviour {
 	public void Killed (){
 		//set enemy to false
 		if (HP == 0){
+			//p.SetActive(true);
 			if (target.tag == "Player1")
 			{
 				if (color == "red")
@@ -174,6 +176,7 @@ public class Enemies : MonoBehaviour {
 			}
 			gameObject.SetActive(false);
 			Destroy(gameObject);
+			//p.SetActive(false);
 		}
 	}
 }

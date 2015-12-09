@@ -14,14 +14,12 @@ public class Hide : MonoBehaviour {
 	
 	}
 	void OnTriggerEnter(Collider col){
-		Debug.Log ("Hit");
 		if (col.GetComponent<Collider>().tag == "Wall") {
 			col.gameObject.GetComponent<Renderer> ().enabled = false;
 			//wall.GetComponent<Renderer> ().enabled = false;
 		}
 	}
 	void OnTriggerExit(Collider col){
-		Debug.Log ("Exit");
 		if (col.GetComponent<Collider> ().tag == "Wall") {
 			col.gameObject.GetComponent<Renderer> ().enabled = true;
 		}

@@ -7,6 +7,12 @@ public class GameManager : MonoBehaviour {
 	public Player1 player1;
 	public Player2 player2;
 
+	public Camera p1;
+	public Camera p2;
+
+	public Camera p1W;
+	public Camera p2W;
+
 	public Enemies redEnemy1;
 	public Enemies redEnemy2;
 
@@ -25,16 +31,18 @@ public class GameManager : MonoBehaviour {
 //	public Enemies Boss4;
 
 	public int wave;
-	public float spawnWait;
-	public float startWait;
-	public float waveWait;
-	public float spawnTime;
 
 	public Transform[] spawnPoints1;
 	public Transform[] spawnPoints2;
 
+	public Text timer;
 	public Slider healthBar;
 	public Slider healthBar2;
+	public Text status1;
+	public Text status2;
+
+	public Text score1;
+	public Text score2;
 	
 	public Transform[] w1;
 	public Transform[] w2;
@@ -52,6 +60,18 @@ public class GameManager : MonoBehaviour {
 	private int n = 0;
 	private int m = 0;
 
+	private float t = 30.0f;
+	private float pt = 10.0f;
+	private bool newW;
+
+	public GameObject c;
+	public Image red;
+
+	public GameObject t1;
+	public GameObject t2;
+	public GameObject mainT;
+	public GameObject back;
+	
 
 	// Use this for initialization
 
@@ -60,12 +80,9 @@ public class GameManager : MonoBehaviour {
 		gameOver = false;
 		restart = false;
 
-		// call the SpawnEnemy function once every second afer 1 second.
 		healthBar.maxValue = player1.maxHealth;
 		healthBar2.maxValue = player2.maxHealth;
 
-		//InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
-		//StartCoroutine (SpawnWaves ());
 		SpawnEnemy();
 
 	}
@@ -75,6 +92,18 @@ public class GameManager : MonoBehaviour {
 		int temp;
 		healthBar.value = player1.currentHealth;
 		healthBar2.value = player2.currentHealth;
+
+		string s1 = player1.currentHealth.ToString ("#");
+		status1.text = "Player 1: " + s1;
+
+		string s2 = player2.currentHealth.ToString ("#");
+		status2.text = "Player 2: " + s2;
+
+		string s11 = player1.totalScore.ToString ("#");
+		score1.text = "Score: " + s11;
+		
+		string s22 = player2.totalScore.ToString ("#");
+		score2.text = s22 + " :Score";
 
 		if (restart)
 		{
@@ -88,9 +117,12 @@ public class GameManager : MonoBehaviour {
 		if (matchTimer > 0.0f) {
 			prepTimer = 10.0f;
 			matchTimer -= Time.deltaTime;
+			timer.text = matchTimer.ToString ("#.##");
 		} else {
 			if (prepTimer > 0.0f) {
+				timer.color = Color.white;
 				prepTimer -= Time.deltaTime;
+				timer.text = prepTimer.ToString ("#.##");
 				//wave = 1;
 				temp = wave;
 				wave = Random.Range (1, 8);
@@ -101,11 +133,16 @@ public class GameManager : MonoBehaviour {
 				Start();
 			}
 			else {
-				matchTimer = 20.0f;
+				timer.color = Color.red;
+				matchTimer = 30.0f;
 			}
 		}
-
+		if (matchTimer < 10.0f || matchTimer < 10.0f) {
+			timer.text = "0" + timer.text;
+		}
 		if (matchTimer <= 0f ) {
+			t1.SetActive(false);
+			t2.SetActive(false);
 			grace = true;
 		}
 		if (prepTimer <= 0f) {
@@ -113,65 +150,99 @@ public class GameManager : MonoBehaviour {
 			player1.gotItem = false;
 			player2.gotItem = false;
 		}
-
+		if (matchTimer <= 1f && matchTimer > 0f) {
+			newW = true;
+		} else {
+			newW = false;
+		}
+		if (matchTimer <= 1.5f && matchTimer >= 0f) {
+			player1.sheild.SetActive(false);
+			player2.sheild.SetActive(false);
+			player1.turnRight = player1.setRight;
+			player2.turnRight = player2.setRight;
+			player1.walkSpeed = 10f;
+			player2.walkSpeed = 10f;
+		}
+		if (matchTimer <= 5.1) {
+			t1.SetActive(true);
+			t2.SetActive(true);
+			t1.GetComponent<Text> ().text = matchTimer.ToString("#");
+			t2.GetComponent<Text> ().text = matchTimer.ToString("#");
+		}
+		if (player1.dead == true && player2.dead == true) {
+			t1.SetActive(false);
+			t2.SetActive(false);
+			mainT.SetActive(false);
+			back.SetActive(false);
+		}
 	}
 
 	void SpawnRed() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
-
-		redEnemy1.gm = this;
-		redEnemy1.target = player1.transform;
-		Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-		//enemyWave1[n] = (GameObject) Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-
-		redEnemy2.gm = this;
-		redEnemy2.target = player2.transform;
-		Instantiate (redEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		if (player1.dead == false) {
+			redEnemy1.gm = this;
+			redEnemy1.target = player1.transform;
+			Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+//			red.rectTransform.anchoredPosition = transform.TransformVector(spawnPoints1[spawnPointIndex1].position.x - 54.5f, spawnPoints1[spawnPointIndex1].position.z, 0f); 
+//			red.transform.SetParent (c.transform);
+//			Instantiate (red, red.rectTransform.anchoredPosition, red.rectTransform.rotation);
+		}
+		if (player2.dead == false) {
+			redEnemy2.gm = this;
+			redEnemy2.target = player2.transform;
+			Instantiate (redEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		}
 
 	}
 
 	void SpawnBlue() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
-
-		blueEnemy1.gm = this;
-		blueEnemy1.target = player1.transform;
-		Instantiate (blueEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-
-		blueEnemy2.gm = this;
-		blueEnemy2.target = player2.transform;
-		Instantiate (blueEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		if (player1.dead == false) {
+			blueEnemy1.gm = this;
+			blueEnemy1.target = player1.transform;
+			Instantiate (blueEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+		}
+		if (player2.dead == false) {
+			blueEnemy2.gm = this;
+			blueEnemy2.target = player2.transform;
+			Instantiate (blueEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		}
 	}
 
 	void SpawnYellow() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
-
-		yellowEnemy1.gm = this;
-		yellowEnemy1.target = player1.transform;
-		Instantiate (yellowEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-
-		yellowEnemy2.gm = this;
-		yellowEnemy2.target = player2.transform;
-		Instantiate (yellowEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		if (player1.dead == false) {
+			yellowEnemy1.gm = this;
+			yellowEnemy1.target = player1.transform;
+			Instantiate (yellowEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+		}
+		if (player2.dead == false) {
+			yellowEnemy2.gm = this;
+			yellowEnemy2.target = player2.transform;
+			Instantiate (yellowEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		}
 	}
 
 	void SpawnGreen() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
-
-		greenEnemy1.gm = this;
-		greenEnemy1.pt = w1;
-		greenEnemy1.wanderIndex = Random.Range (0,6);
-		greenEnemy1.target = player1.transform;
-		Instantiate (greenEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-
-		greenEnemy2.gm = this;
-		greenEnemy2.pt = w2;
-		greenEnemy2.wanderIndex = Random.Range (0,6);
-		greenEnemy2.target = player2.transform;
-		Instantiate (greenEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		if (player1.dead == false) {
+			greenEnemy1.gm = this;
+			greenEnemy1.pt = w1;
+			greenEnemy1.wanderIndex = Random.Range (0,6);
+			greenEnemy1.target = player1.transform;
+			Instantiate (greenEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+		}
+		if (player2.dead == false) {
+			greenEnemy2.gm = this;
+			greenEnemy2.pt = w2;
+			greenEnemy2.wanderIndex = Random.Range (0,6);
+			greenEnemy2.target = player2.transform;
+			Instantiate (greenEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		}
 	}
 
 	void SpawnEnemy()
@@ -212,59 +283,4 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator SpawnWaves ()
-	{
-		yield return new WaitForSeconds (startWait);
-		while (true)
-		{
-			for (int i = 0; i < 10; i++)
-			{
-				int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
-				int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
-
-//				redEnemy1.target = player1.transform;
-//				Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-//				
-//				redEnemy2.target = player2.transform;
-//				Instantiate (redEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
-//
-//				blueEnemy1.target = player1.transform;
-//				Instantiate (blueEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-//				
-//				blueEnemy2.target = player2.transform;
-//				Instantiate (blueEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
-
-				yellowEnemy1.target = player1.transform;
-				Instantiate (yellowEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-				
-				yellowEnemy2.target = player2.transform;
-				Instantiate (yellowEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
-
-//				greenEnemy1.pt = w1;
-//				greenEnemy1.wanderIndex = Random.Range (0,6);
-//				greenEnemy1.target = player1.transform;
-//				Instantiate (greenEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-//				
-//				greenEnemy2.pt = w2;
-//				greenEnemy2.wanderIndex = Random.Range (0,6);
-//				greenEnemy2.target = player2.transform;
-//				Instantiate (greenEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
-
-
-				yield return new WaitForSeconds (spawnWait);
-			}
-			yield return new WaitForSeconds (waveWait);
-			
-			if (gameOver)
-			{
-				restart = true;
-				break;
-			}
-		}
-	}
-
-	public void GameOver ()
-	{
-		gameOver = true;
-	}
 }

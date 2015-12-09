@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class WeaponController1 : MonoBehaviour {
-	public bool axeEquipped = false;
+	public bool axeEquipped;
 	public GameObject axe;
 	Animator anim;
 	// Use this for initialization
@@ -25,6 +25,10 @@ public class WeaponController1 : MonoBehaviour {
 			}
 		}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b9af18de0f5a9f94e8daff61bfb556063d4c1ac
 	}
 
 }

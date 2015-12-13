@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
+
+	public AudioSource bgm;
+	public AudioClip bgm_background;
 	
 	public Player1 player1;
 	public Player2 player2;
@@ -85,6 +88,7 @@ public class GameManager : MonoBehaviour {
 	public AudioClip sfx_zoom;
 	public AudioClip sfx_agro;
 	public AudioClip sfx_blip;
+	public AudioClip sfx_hit;
 	
 
 	// Use this for initialization
@@ -107,6 +111,11 @@ public class GameManager : MonoBehaviour {
 		healthBar.value = player1.currentHealth;
 		healthBar2.value = player2.currentHealth;
 
+		bgm.clip = bgm_background;
+		if(!bgm.isPlaying)
+		{
+			bgm.Play ();
+		}
 
 		string s1 = player1.currentHealth.ToString ("#");
 		if (player1.currentHealth <= 0f) {
@@ -136,6 +145,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (matchTimer > 0.0f) {
+			bgm.volume = .6f;
 			prepTimer = 10.0f;
 			matchTimer -= Time.deltaTime;
 			timer.text = matchTimer.ToString ("#.##");
@@ -162,6 +172,7 @@ public class GameManager : MonoBehaviour {
 			timer.text = "0" + timer.text;
 		}
 		if (matchTimer <= 0f ) {
+			bgm.volume = .3f;
 			t1.SetActive(false);
 			t2.SetActive(false);
 			grace = true;
@@ -220,6 +231,7 @@ public class GameManager : MonoBehaviour {
 			tracker = thisImage;
 
 			redEnemy1.sfx = sfx;
+			redEnemy1.sfx_hit = sfx_hit;
 			redEnemy1.sfx_blip = sfx_blip;
 			redEnemy1.gm = this;
 			redEnemy1.p = tracker;
@@ -233,8 +245,9 @@ public class GameManager : MonoBehaviour {
 
 			tracker = thisImage;
 
-			redEnemy1.sfx = sfx;
-			redEnemy1.sfx_blip = sfx_blip;
+			redEnemy2.sfx = sfx;
+			redEnemy2.sfx_hit = sfx_hit;
+			redEnemy2.sfx_blip = sfx_blip;
 			redEnemy2.gm = this;
 			redEnemy2.p = tracker;
 			redEnemy2.target = player2.transform;
@@ -253,6 +266,7 @@ public class GameManager : MonoBehaviour {
 			tracker = thisImage;
 
 			blueEnemy1.sfx = sfx;
+			blueEnemy1.sfx_hit = sfx_hit;
 			blueEnemy1.sfx_grow = sfx_grow;
 			blueEnemy1.gm = this;
 			blueEnemy1.p = tracker;
@@ -266,6 +280,7 @@ public class GameManager : MonoBehaviour {
 			tracker = thisImage;
 
 			blueEnemy2.sfx = sfx;
+			blueEnemy2.sfx_hit = sfx_hit;
 			blueEnemy2.sfx_grow = sfx_grow;
 			blueEnemy2.gm = this;
 			blueEnemy2.p = tracker;
@@ -284,6 +299,7 @@ public class GameManager : MonoBehaviour {
 			tracker = thisImage;
 
 			yellowEnemy1.sfx = sfx;
+			yellowEnemy1.sfx_hit = sfx_hit;
 			yellowEnemy1.sfx_zoom = sfx_zoom;
 			yellowEnemy1.sfx_blip = sfx_blip;
 			yellowEnemy1.gm = this;
@@ -298,6 +314,7 @@ public class GameManager : MonoBehaviour {
 			tracker = thisImage;
 
 			yellowEnemy2.sfx = sfx;
+			yellowEnemy2.sfx_hit = sfx_hit;
 			yellowEnemy2.sfx_zoom = sfx_zoom;
 			yellowEnemy1.sfx_blip = sfx_blip;
 			yellowEnemy2.gm = this;
@@ -317,6 +334,7 @@ public class GameManager : MonoBehaviour {
 			tracker = thisImage;
 
 			greenEnemy1.sfx = sfx;
+			greenEnemy1.sfx_hit = sfx_hit;
 			greenEnemy1.sfx_agro = sfx_agro;
 			greenEnemy1.gm = this;
 			greenEnemy1.p = tracker;
@@ -332,6 +350,7 @@ public class GameManager : MonoBehaviour {
 			tracker = thisImage;
 
 			greenEnemy2.sfx = sfx;
+			greenEnemy2.sfx_hit = sfx_hit;
 			greenEnemy2.sfx_agro = sfx_agro;
 			greenEnemy2.gm = this;
 			greenEnemy2.p = tracker;

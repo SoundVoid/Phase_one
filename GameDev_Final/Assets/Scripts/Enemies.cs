@@ -22,6 +22,9 @@ public class Enemies : MonoBehaviour {
 	public AudioClip sfx_zoom;
 	public AudioClip sfx_agro;
 	public AudioClip sfx_blip;
+	public AudioClip sfx_hit;
+
+	private bool isHurt = false;
 
 	
 	// Use this for initialization
@@ -77,7 +80,12 @@ public class Enemies : MonoBehaviour {
 			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (pt [wanderIndex].position - transform.position), .2f);
 			transform.position += transform.forward * walkSpeed * Time.deltaTime;
 		} else {
-			sfx.PlayOneShot(sfx_agro);
+			if (!isHurt) 
+			{
+				sfx.volume = 1f;
+				sfx.PlayOneShot(sfx_agro);
+				isHurt = true;
+			}
 			Chasing(target);
 		}
 
@@ -86,20 +94,38 @@ public class Enemies : MonoBehaviour {
 	void Tank (){
 		if (HP < 10 && HP >= 8) {
 			transform.localScale = new Vector3(2f, 2f, 2f);
+			if (!isHurt) 
+			{
+				sfx.volume = .3f;
+				sfx.PlayOneShot(sfx_grow);
+				isHurt = true;
+			}
 		}
 		if (HP < 8 && HP >= 6) {
 			transform.localScale = new Vector3(3f, 3f, 3f);
-			sfx.PlayOneShot(sfx_grow);
+			isHurt = false;
 		}
 		if (HP < 6 && HP >= 4) {
 			transform.localScale = new Vector3(4f, 4f, 4f);
+			if (!isHurt) 
+			{
+				sfx.volume = .3f;
+				sfx.PlayOneShot(sfx_grow);
+				isHurt = true;
+			}
 		}
 		if (HP < 4 && HP >= 2) {
 			transform.localScale = new Vector3(5f, 5f, 5f);
-			sfx.PlayOneShot(sfx_grow);
+			isHurt = false;
 		}
 		if (HP < 2 && HP >= 1) {
 			transform.localScale = new Vector3(6f, 6f, 6f);
+			if (!isHurt) 
+			{
+				sfx.volume = .3f;
+				sfx.PlayOneShot(sfx_grow);
+				isHurt = true;
+			}
 		}
 	}
 
@@ -148,7 +174,9 @@ public class Enemies : MonoBehaviour {
 //		}
 //	}
 	public void Killed (){
-		//set enemy to false
+		if (color != "red") {
+			sfx.PlayOneShot (sfx_hit);
+		}
 		if (HP <= 0){
 			//p.SetActive(true);
 			if (target.tag == "Player1")

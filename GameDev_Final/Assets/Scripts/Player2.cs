@@ -27,7 +27,7 @@ public class Player2 : MonoBehaviour {
 	public bool gotItem = false;
 	public bool sh = false;
 	public bool st = false;
-	private float shHP = 25f;
+	private float shHP = 30f;
 
 	private int score;
 	public AudioSource sfx;
@@ -95,7 +95,7 @@ public class Player2 : MonoBehaviour {
 			if (shHP <= 0f) {
 				sheild.SetActive(false);
 				sh = false;
-				shHP = 25f;
+				shHP = 30f;
 			}
 		}
 		

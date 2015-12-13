@@ -30,7 +30,7 @@ public class Player1 : MonoBehaviour {
 	public bool gotItem = false;
 	public bool sh = false;
 	public bool st = false;
-	private float shHP = 25f;
+	private float shHP = 30f;
 
 	private Bullet[] spread;
 	private Vector3 s;
@@ -71,6 +71,7 @@ public class Player1 : MonoBehaviour {
 		if (currentHealth <= 0)
 		{
 			dead = true;
+			p.gameObject.SetActive(false);
 			gameObject.SetActive(false);
 		}
 		if (sh == true) {
@@ -137,7 +138,7 @@ public class Player1 : MonoBehaviour {
 			if (shHP <= 0f) {
 				sheild.SetActive(false);
 				sh = false;
-				shHP = 25f;
+				shHP = 30f;
 			}
 		}
 		

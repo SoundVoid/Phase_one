@@ -64,13 +64,27 @@ public class GameManager : MonoBehaviour {
 	private float pt = 10.0f;
 	private bool newW;
 
-	public GameObject c;
-	public Image red;
+	public GameObject newParent;
+	public Image redIcon;
+	public Image blueIcon;
+	public Image yellowIcon;
+	public Image greenIcon;
 
 	public GameObject t1;
 	public GameObject t2;
 	public GameObject mainT;
 	public GameObject back;
+
+	public GameObject st1;
+	public GameObject st2;
+
+	private Image tracker;
+
+	public AudioSource sfx;
+	public AudioClip sfx_grow;
+	public AudioClip sfx_zoom;
+	public AudioClip sfx_agro;
+	public AudioClip sfx_blip;
 	
 
 	// Use this for initialization
@@ -93,10 +107,17 @@ public class GameManager : MonoBehaviour {
 		healthBar.value = player1.currentHealth;
 		healthBar2.value = player2.currentHealth;
 
+
 		string s1 = player1.currentHealth.ToString ("#");
+		if (player1.currentHealth <= 0f) {
+			s1 = "0";
+		}
 		status1.text = "Player 1: " + s1;
 
 		string s2 = player2.currentHealth.ToString ("#");
+		if (player2.currentHealth <= 0f) {
+			s2 = "0";
+		}
 		status2.text = "Player 2: " + s2;
 
 		string s11 = player1.totalScore.ToString ("#");
@@ -158,12 +179,18 @@ public class GameManager : MonoBehaviour {
 		if (matchTimer <= 1.5f && matchTimer >= 0f) {
 			player1.sheild.SetActive(false);
 			player2.sheild.SetActive(false);
+			player1.sh = false;
+			player2.sh = false;
+			player1.st = false;
+			player2.st = false;
 			player1.turnRight = player1.setRight;
 			player2.turnRight = player2.setRight;
 			player1.walkSpeed = 10f;
 			player2.walkSpeed = 10f;
+			st1.SetActive(false);
+			st2.SetActive(false);
 		}
-		if (matchTimer <= 5.1) {
+		if (matchTimer <= 5f) {
 			t1.SetActive(true);
 			t2.SetActive(true);
 			t1.GetComponent<Text> ().text = matchTimer.ToString("#");
@@ -175,21 +202,41 @@ public class GameManager : MonoBehaviour {
 			mainT.SetActive(false);
 			back.SetActive(false);
 		}
+
+//		redIcon.transform.parent = newParent.transform;
+//		blueIcon.transform.parent = newParent.transform;
+//		yellowIcon.transform.parent = newParent.transform;
+//		greenIcon.transform.parent = newParent.transform;
 	}
 
 	void SpawnRed() {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 		if (player1.dead == false) {
+
+			Image thisImage = (Image)Instantiate(redIcon, new Vector3(spawnPoints1[spawnPointIndex1].localPosition.x, spawnPoints1[spawnPointIndex1].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+
+			tracker = thisImage;
+
+			redEnemy1.sfx = sfx;
+			redEnemy1.sfx_blip = sfx_blip;
 			redEnemy1.gm = this;
+			redEnemy1.p = tracker;
 			redEnemy1.target = player1.transform;
 			Instantiate (redEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
-//			red.rectTransform.anchoredPosition = transform.TransformVector(spawnPoints1[spawnPointIndex1].position.x - 54.5f, spawnPoints1[spawnPointIndex1].position.z, 0f); 
-//			red.transform.SetParent (c.transform);
-//			Instantiate (red, red.rectTransform.anchoredPosition, red.rectTransform.rotation);
 		}
 		if (player2.dead == false) {
+
+			Image thisImage = (Image)Instantiate(redIcon, new Vector3(spawnPoints2[spawnPointIndex2].localPosition.x, spawnPoints2[spawnPointIndex2].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+
+			tracker = thisImage;
+
+			redEnemy1.sfx = sfx;
+			redEnemy1.sfx_blip = sfx_blip;
 			redEnemy2.gm = this;
+			redEnemy2.p = tracker;
 			redEnemy2.target = player2.transform;
 			Instantiate (redEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 		}
@@ -200,12 +247,28 @@ public class GameManager : MonoBehaviour {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 		if (player1.dead == false) {
+			Image thisImage = (Image)Instantiate(blueIcon, new Vector3(spawnPoints1[spawnPointIndex1].localPosition.x, spawnPoints1[spawnPointIndex1].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+			
+			tracker = thisImage;
+
+			blueEnemy1.sfx = sfx;
+			blueEnemy1.sfx_grow = sfx_grow;
 			blueEnemy1.gm = this;
+			blueEnemy1.p = tracker;
 			blueEnemy1.target = player1.transform;
 			Instantiate (blueEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
 		}
 		if (player2.dead == false) {
+			Image thisImage = (Image)Instantiate(blueIcon, new Vector3(spawnPoints2[spawnPointIndex2].localPosition.x, spawnPoints2[spawnPointIndex2].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+			
+			tracker = thisImage;
+
+			blueEnemy2.sfx = sfx;
+			blueEnemy2.sfx_grow = sfx_grow;
 			blueEnemy2.gm = this;
+			blueEnemy2.p = tracker;
 			blueEnemy2.target = player2.transform;
 			Instantiate (blueEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 		}
@@ -215,12 +278,30 @@ public class GameManager : MonoBehaviour {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 		if (player1.dead == false) {
+			Image thisImage = (Image)Instantiate(yellowIcon, new Vector3(spawnPoints1[spawnPointIndex1].localPosition.x, spawnPoints1[spawnPointIndex1].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+			
+			tracker = thisImage;
+
+			yellowEnemy1.sfx = sfx;
+			yellowEnemy1.sfx_zoom = sfx_zoom;
+			yellowEnemy1.sfx_blip = sfx_blip;
 			yellowEnemy1.gm = this;
+			yellowEnemy1.p = tracker;
 			yellowEnemy1.target = player1.transform;
 			Instantiate (yellowEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
 		}
 		if (player2.dead == false) {
+			Image thisImage = (Image)Instantiate(yellowIcon, new Vector3(spawnPoints2[spawnPointIndex2].localPosition.x, spawnPoints2[spawnPointIndex2].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+			
+			tracker = thisImage;
+
+			yellowEnemy2.sfx = sfx;
+			yellowEnemy2.sfx_zoom = sfx_zoom;
+			yellowEnemy1.sfx_blip = sfx_blip;
 			yellowEnemy2.gm = this;
+			yellowEnemy2.p = tracker;
 			yellowEnemy2.target = player2.transform;
 			Instantiate (yellowEnemy2, spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 		}
@@ -230,14 +311,30 @@ public class GameManager : MonoBehaviour {
 		int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 		int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
 		if (player1.dead == false) {
+			Image thisImage = (Image)Instantiate(greenIcon, new Vector3(spawnPoints1[spawnPointIndex1].localPosition.x, spawnPoints1[spawnPointIndex1].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+			
+			tracker = thisImage;
+
+			greenEnemy1.sfx = sfx;
+			greenEnemy1.sfx_agro = sfx_agro;
 			greenEnemy1.gm = this;
+			greenEnemy1.p = tracker;
 			greenEnemy1.pt = w1;
 			greenEnemy1.wanderIndex = Random.Range (0,6);
 			greenEnemy1.target = player1.transform;
 			Instantiate (greenEnemy1, spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
 		}
 		if (player2.dead == false) {
+			Image thisImage = (Image)Instantiate(greenIcon, new Vector3(spawnPoints2[spawnPointIndex2].localPosition.x, spawnPoints2[spawnPointIndex2].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+			
+			tracker = thisImage;
+
+			greenEnemy2.sfx = sfx;
+			greenEnemy2.sfx_agro = sfx_agro;
 			greenEnemy2.gm = this;
+			greenEnemy2.p = tracker;
 			greenEnemy2.pt = w2;
 			greenEnemy2.wanderIndex = Random.Range (0,6);
 			greenEnemy2.target = player2.transform;

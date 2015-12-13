@@ -14,6 +14,7 @@ public class Player2 : MonoBehaviour {
 	public GameObject sheild;
 
 	public Bullet bullet;
+	public STBullet stBullet;
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
@@ -25,6 +26,7 @@ public class Player2 : MonoBehaviour {
 	public bool dead = false;
 	public bool gotItem = false;
 	public bool sh = false;
+	public bool st = false;
 	private float shHP = 25f;
 
 	private int score;
@@ -45,9 +47,13 @@ public class Player2 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//if the player's health is zero, deactivate the player
+		Vector3 mapIndicatorPos = new Vector3((transform.localPosition.x+.5f)/2.5f, (transform.localPosition.z-3.2f)/1.9f, 0);
+		p.transform.localPosition = mapIndicatorPos * (100f/12.13f);
+
 		if (currentHealth <= 0)
 		{
 			dead = true;
+			p.gameObject.SetActive(false);
 			gameObject.SetActive(false);
 		}
 		if (sh == true) {
@@ -138,8 +144,14 @@ public class Player2 : MonoBehaviour {
 	void Shoot(){
 		sfx.PlayOneShot(sfx_shoot);
 		//Instantiate a bullet and set it to a newBullet
-		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
-		newBullet.direction = transform.forward;
+		if (st == false) {
+			Bullet newBullet = (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+			newBullet.direction = transform.forward;
+		}
+		if (st == true) {
+			STBullet newBullet = (STBullet)Instantiate (stBullet, transform.position + transform.forward, Quaternion.identity);
+			newBullet.direction = transform.forward;
+		}
 		
 	}
 

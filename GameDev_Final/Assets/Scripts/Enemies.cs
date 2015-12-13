@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Enemies : MonoBehaviour {
 
@@ -14,7 +15,13 @@ public class Enemies : MonoBehaviour {
 	private float walkSpeed = 3.0f;
 	private float runSpeed = 2.0f;
 	public int HP;
-	public GameObject p;
+	public Image p;
+
+	public AudioSource sfx;
+	public AudioClip sfx_grow;
+	public AudioClip sfx_zoom;
+	public AudioClip sfx_agro;
+	public AudioClip sfx_blip;
 
 	
 	// Use this for initialization
@@ -24,10 +31,13 @@ public class Enemies : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 //		Chasing (target);
 		if (gm.grace == true) {
 			gameObject.SetActive(false);
 			Destroy(gameObject);
+			p.gameObject.SetActive(false);
+			Destroy(p);
 		}
 
 		switch (color) {
@@ -46,6 +56,8 @@ public class Enemies : MonoBehaviour {
 			Wandering ();
 			break;
 		}
+		Vector3 mapIndicatorPos = new Vector3((transform.localPosition.x+.5f)/2.5f, (transform.localPosition.z-3.2f)/1.9f, 0);
+		p.transform.localPosition = mapIndicatorPos * (100f/12.13f);
 	}
 
 	void Chasing (Transform t)
@@ -56,6 +68,7 @@ public class Enemies : MonoBehaviour {
 	
 	void Wandering ()
 	{
+
 		if (HP == 7) {
 			if (transform.position.x >= pt [wanderIndex].position.x && transform.position.z >= pt [wanderIndex].position.z) {
 				wanderIndex = Random.Range (0, pt.Length);
@@ -64,6 +77,7 @@ public class Enemies : MonoBehaviour {
 			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (pt [wanderIndex].position - transform.position), .2f);
 			transform.position += transform.forward * walkSpeed * Time.deltaTime;
 		} else {
+			sfx.PlayOneShot(sfx_agro);
 			Chasing(target);
 		}
 
@@ -75,17 +89,17 @@ public class Enemies : MonoBehaviour {
 		}
 		if (HP < 8 && HP >= 6) {
 			transform.localScale = new Vector3(3f, 3f, 3f);
+			sfx.PlayOneShot(sfx_grow);
 		}
 		if (HP < 6 && HP >= 4) {
 			transform.localScale = new Vector3(4f, 4f, 4f);
-			//rb.mass = 3;
 		}
 		if (HP < 4 && HP >= 2) {
 			transform.localScale = new Vector3(5f, 5f, 5f);
+			sfx.PlayOneShot(sfx_grow);
 		}
 		if (HP < 2 && HP >= 1) {
 			transform.localScale = new Vector3(6f, 6f, 6f);
-			//rb.mass = 4;
 		}
 	}
 
@@ -94,11 +108,13 @@ public class Enemies : MonoBehaviour {
 			if (target.tag == "Player1") {
 				if (col.GetComponent<Collider>().tag == "Vision Cone1") {
 					Attack(target);
+					sfx.PlayOneShot(sfx_zoom);
 				}
 			}
 			if (target.tag == "Player2") {
 				if (col.GetComponent<Collider>().tag == "Vision Cone2") {
 					Attack(target);
+					sfx.PlayOneShot(sfx_zoom);
 				}
 			}
 		}
@@ -133,12 +149,13 @@ public class Enemies : MonoBehaviour {
 //	}
 	public void Killed (){
 		//set enemy to false
-		if (HP == 0){
+		if (HP <= 0){
 			//p.SetActive(true);
 			if (target.tag == "Player1")
 			{
 				if (color == "red")
 				{
+					sfx.PlayOneShot(sfx_blip);
 					target.GetComponent<Player1> ().totalScore += 1;
 				}
 				if (color == "blue")
@@ -147,10 +164,12 @@ public class Enemies : MonoBehaviour {
 				}
 				if (color == "yellow")
 				{
+					sfx.PlayOneShot(sfx_blip);
 					target.GetComponent<Player1> ().totalScore += 3;
 				}
 				if (color == "green")
 				{
+					sfx.PlayOneShot(sfx_agro);
 					target.GetComponent<Player1> ().totalScore += 4;
 				}
 			}
@@ -159,6 +178,7 @@ public class Enemies : MonoBehaviour {
 			{
 				if (color == "red")
 				{
+					sfx.PlayOneShot(sfx_blip);
 					target.GetComponent<Player2> ().totalScore += 1;
 				}
 				if (color == "blue")
@@ -167,16 +187,19 @@ public class Enemies : MonoBehaviour {
 				}
 				if (color == "yellow")
 				{
+					sfx.PlayOneShot(sfx_blip);
 					target.GetComponent<Player2> ().totalScore += 3;
 				}
 				if (color == "green")
 				{
+					sfx.PlayOneShot(sfx_agro);
 					target.GetComponent<Player2> ().totalScore += 4;
 				}
 			}
 			gameObject.SetActive(false);
 			Destroy(gameObject);
-			//p.SetActive(false);
+			p.gameObject.SetActive(false);
+			//Destroy(p);
 		}
 	}
 }

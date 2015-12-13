@@ -8,6 +8,15 @@ public class Item : MonoBehaviour {
 	public GameObject sheild1;
 	public GameObject sheild2;
 
+	public GameObject st1;
+	public GameObject st2;
+
+	public Bullet b1;
+	public Bullet b2;
+
+	public AudioSource sfx;
+	public AudioClip sfx_pickUp;
+
 	private int n;
 	private int m;
 
@@ -24,6 +33,7 @@ public class Item : MonoBehaviour {
 
 	void OnTriggerEnter (Collider col) {
 		if (col.GetComponent<Collider>().tag == "Player1" || col.GetComponent<Collider>().tag == "Player2" ) {
+			sfx.PlayOneShot(sfx_pickUp);
 			if (gameObject.tag == "Health") {
 				if (col.GetComponent<Collider>().tag == "Player1") {
 					if (col.GetComponent<Collider>().GetComponent<Player1> ().currentHealth < 15f) {
@@ -53,12 +63,22 @@ public class Item : MonoBehaviour {
 				// ????
 
 				if (col.GetComponent<Collider>().tag == "Player1") {
-					col.GetComponent<Player1> ().sh = true;
+					if (n <= 4) {
+						col.GetComponent<Player1> ().sh = true;
+					}
+					if (n >= 5) {
+						col.GetComponent<Player1> ().st = true;
+					}
 					col.GetComponent<Player1>().gotItem = true;
 					WM.items1[2].SetActive(false);
 				}
 				if (col.GetComponent<Collider>().tag == "Player2") {
-					col.GetComponent<Player2> ().sh = true;
+					if (n <= 4) {
+						col.GetComponent<Player2> ().sh = true;
+					}
+					if (n >= 5) {
+						col.GetComponent<Player2> ().st = true;
+					}
 					col.GetComponent<Player2>().gotItem = true;
 					WM.items2[2].SetActive(false);
 				}
@@ -73,6 +93,7 @@ public class Item : MonoBehaviour {
 
 				if (col.GetComponent<Collider>().tag == "Player1") {
 					col.GetComponent<Player1>().gotItem = true;
+					st2.SetActive(true);
 					if (n <= 4) {
 						col.GetComponent<Player1>().opponet.GetComponent<Player2>().turnRight = -2.5f;
 					}
@@ -86,6 +107,7 @@ public class Item : MonoBehaviour {
 				}
 				if (col.GetComponent<Collider>().tag == "Player2") {
 					col.GetComponent<Player2>().gotItem = true;
+					st1.SetActive(true);
 					if (m <= 4) {
 						col.GetComponent<Player2>().opponet.GetComponent<Player1>().turnRight = -2.5f;
 					}

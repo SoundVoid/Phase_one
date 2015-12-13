@@ -147,9 +147,9 @@ public class GameManager : MonoBehaviour {
 				//wave = 1;
 				temp = wave;
 				wave = Random.Range (1, 8);
-				if (temp == wave) {
-					wave = (wave + temp) % 8;
-				}
+//				if (temp == wave) {
+//					wave = (wave + temp) % 8;
+//				}
 				CancelInvoke();
 				Start();
 			}

@@ -16,6 +16,7 @@ public class Player1 : MonoBehaviour {
 	public GameObject sheild;
 
 	public Bullet bullet;
+	public STBullet stBullet;
 	public float maxHealth;
 	public float currentHealth;
 	public float walkSpeed;
@@ -28,6 +29,7 @@ public class Player1 : MonoBehaviour {
 	public bool dead = false;
 	public bool gotItem = false;
 	public bool sh = false;
+	public bool st = false;
 	private float shHP = 25f;
 
 	private Bullet[] spread;
@@ -37,6 +39,10 @@ public class Player1 : MonoBehaviour {
 	public AudioClip sfx_shoot;
 
 	public Image p;
+	Vector2 relativePosition;
+
+	public GameObject buff;
+	public GameObject debuff;
 
 	bool grounded = false;
 	private bool wall = false;
@@ -55,6 +61,10 @@ public class Player1 : MonoBehaviour {
 		Debug.Log (p.rectTransform.position.x);
 		//p.rectTransform.anchoredPosition.x.Equals (gameObject.transform.position.x - 53.5f);
 		//p.rectTransform.anchoredPosition.y.Equals (gameObject.transform.position.z - 15.4f);
+
+		Vector3 mapIndicatorPos = new Vector3((transform.localPosition.x+1f)/2.5f, (transform.localPosition.z-3.2f)/1.9f, 0);
+		p.transform.localPosition = mapIndicatorPos * (100f/12.13f);
+
 		Debug.Log (p.rectTransform.position.x);
 
 		wall = false;
@@ -93,20 +103,20 @@ public class Player1 : MonoBehaviour {
 			}
 			if(weaponController.axeEquipped == true){
 				Debug.Log ("act");
-//				if (t > 0f) {
-//					t -= Time.deltaTime;
-//					gameObject.GetComponent<Animator> ().SetBool("axeS", true);
-//				}
-//				if (t <= 0f) {
-//					gameObject.GetComponent<Animator> ().SetBool("axeS", false);
-//				}
+				if (t > 0f) {
+					t -= Time.deltaTime;
+					gameObject.GetComponent<Animator> ().SetBool("axeS", true);
+				}
+				if (t <= 0f) {
+					gameObject.GetComponent<Animator> ().SetBool("axeS", false);
+				}
 				gameObject.GetComponent<Animator> ().SetBool("axeS", true);
 
 			}
 		}
-//		if (!(Input.GetKeyDown (KeyCode.C))) {
-//			gameObject.GetComponent<Animator> ().SetBool("axeS", false);
-//		}
+		if (!(Input.GetKeyDown (KeyCode.C))) {
+			gameObject.GetComponent<Animator> ().SetBool("axeS", false);
+		}
 
 		//if (Input.GetKeyDown (KeyCode.C) && weapCtrl.hasSword) {
 		//	Swing();
@@ -181,9 +191,14 @@ public class Player1 : MonoBehaviour {
 	void Shoot(){
 		//Instantiate a bullet and set it to a newBullet
 		sfx.PlayOneShot(sfx_shoot);
-		Bullet newBullet =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
-		newBullet.direction = transform.forward;
-
+		if (st == false) {
+			Bullet newBullet = (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+			newBullet.direction = transform.forward;
+		}
+		if (st == true) {
+			STBullet newBullet = (STBullet)Instantiate (stBullet, transform.position + transform.forward, Quaternion.identity);
+			newBullet.direction = transform.forward;
+		}
 		//if (weapCtrl.hasGun) {
 //			Bullet newBullet = (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
 //			newBullet.direction = transform.forward;
@@ -193,13 +208,13 @@ public class Player1 : MonoBehaviour {
 	}
 
 
-	void Spread () {
-		//Instantiate a bullet and set it to a newBullet
-		Bullet newBullet1 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
-		newBullet1.direction = transform.forward;
-		Bullet newBullet2 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
-		newBullet2.direction = new Vector3 (-.2f, 0f, .2f);
-		Bullet newBullet3 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
-		newBullet3.direction = new Vector3 (.2f, 0f, .2f);
-	}
+//	void Spread () {
+//		//Instantiate a bullet and set it to a newBullet
+//		Bullet newBullet1 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+//		newBullet1.direction = transform.forward;
+//		Bullet newBullet2 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+//		newBullet2.direction = new Vector3 (-.2f, 0f, .2f);
+//		Bullet newBullet3 =  (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+//		newBullet3.direction = new Vector3 (.2f, 0f, .2f);
+//	}
 }

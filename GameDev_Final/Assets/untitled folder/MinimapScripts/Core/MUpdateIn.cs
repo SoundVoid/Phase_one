@@ -1,1 +1,0 @@
-﻿public enum MUpdateType { CustomUpdate, Update, FixedUpdate, LateUpdate }

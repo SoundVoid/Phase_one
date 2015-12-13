@@ -73,10 +73,10 @@ public class Item : MonoBehaviour {
 					WM.items1[2].SetActive(false);
 				}
 				if (col.GetComponent<Collider>().tag == "Player2") {
-					if (n <= 4) {
+					if (m <= 4) {
 						col.GetComponent<Player2> ().sh = true;
 					}
-					if (n >= 5) {
+					if (m >= 5) {
 						col.GetComponent<Player2> ().st = true;
 					}
 					col.GetComponent<Player2>().gotItem = true;

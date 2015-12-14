@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class startScript : MonoBehaviour {
-	public GameObject loadingImage;
-	//public string _scene;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -13,7 +12,6 @@ public class startScript : MonoBehaviour {
 	void Update () {
 	if (Input.GetKeyDown (KeyCode.KeypadEnter)) {
 			Application.LoadLevel(1);
-
 		}
 	}
 }

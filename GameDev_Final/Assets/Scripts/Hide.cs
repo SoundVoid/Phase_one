@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Hide : MonoBehaviour {
 	// Use this for initialization
-	public GameObject wall;
+	public GameObject p;
 	private Light l;
 	void Start () {
 
@@ -14,9 +14,19 @@ public class Hide : MonoBehaviour {
 	
 	}
 	void OnTriggerEnter(Collider col){
-		if (col.GetComponent<Collider>().tag == "Wall") {
-			col.gameObject.GetComponent<Renderer> ().enabled = false;
-			//wall.GetComponent<Renderer> ().enabled = false;
+		if (p.activeInHierarchy) {
+			if (col.GetComponent<Collider> ().tag == "Wall") {
+				col.gameObject.GetComponent<Renderer> ().enabled = false;
+				//wall.GetComponent<Renderer> ().enabled = false;
+			}
+		}
+	}
+	void OnTriggerStay(Collider col){
+		if (p.activeInHierarchy) {
+			if (col.GetComponent<Collider> ().tag == "Wall") {
+				col.gameObject.GetComponent<Renderer> ().enabled = false;
+				//wall.GetComponent<Renderer> ().enabled = false;
+			}
 		}
 	}
 	void OnTriggerExit(Collider col){

@@ -8,6 +8,7 @@ public class Winner : MonoBehaviour {
 
 	public GameObject one;
 	public GameObject two;
+	public GameObject three;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,9 @@ public class Winner : MonoBehaviour {
 			}
 			if (p1.totalScore < p2.totalScore) {
 				two.SetActive(true);
+			}
+			if (p1.totalScore == p2.totalScore) {
+				three.SetActive(true);
 			}
 		}
 	

@@ -10,12 +10,16 @@ public class Enemies : MonoBehaviour {
 	public int wanderIndex;
 	public string color;
 	public GameManager gm;
+	public Material mat;
 	
 	private float t = 60.0f;
 	private float walkSpeed = 3.0f;
 	private float runSpeed = 2.0f;
+	private float shift = .1f;
 	public int HP;
 	public Image p;
+	private float flash = .5f;
+	//public GameObject core;
 
 	public AudioSource sfx;
 	public AudioClip sfx_grow;
@@ -29,7 +33,22 @@ public class Enemies : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-
+		if (color == "blue")
+		{
+			mat.color = Color.red;
+		}
+		if (color == "yellow")
+		{
+			mat.color = Color.green;
+		}
+		if (color == "green")
+		{
+			mat.color = Color.cyan; 
+		}
+		if (color == "black")
+		{
+			sfx.PlayOneShot(sfx_blip);
+		}
 	}
 	
 	// Update is called once per frame
@@ -49,7 +68,7 @@ public class Enemies : MonoBehaviour {
 			break;
 		case "blue":
 			Tank();
-			Chasing (target);
+			Follow (target);
 			break;
 		case "yellow":
 			Chasing (target);
@@ -57,6 +76,9 @@ public class Enemies : MonoBehaviour {
 			break;
 		case "green":
 			Wandering ();
+			break;
+		case "black":
+			Follow (target);
 			break;
 		}
 		Vector3 mapIndicatorPos = new Vector3((transform.localPosition.x+.5f)/2.5f, (transform.localPosition.z-3.2f)/1.9f, 0);
@@ -68,6 +90,12 @@ public class Enemies : MonoBehaviour {
 		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t.position - transform.position), .2f);
 		transform.position += transform.forward * runSpeed * Time.deltaTime;
 	}
+
+	void Follow (Transform t)
+	{	
+		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t.position - transform.position), .2f);
+		transform.position += transform.forward * 1.75f * Time.deltaTime;
+	}
 	
 	void Wandering ()
 	{
@@ -75,7 +103,7 @@ public class Enemies : MonoBehaviour {
 		if (HP == 7) {
 			if (transform.position.x >= pt [wanderIndex].position.x && transform.position.z >= pt [wanderIndex].position.z) {
 				wanderIndex = Random.Range (0, pt.Length);
-				Debug.Log (wanderIndex);
+				//Debug.Log (wanderIndex);
 			}
 			transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation (pt [wanderIndex].position - transform.position), .2f);
 			transform.position += transform.forward * walkSpeed * Time.deltaTime;
@@ -93,20 +121,23 @@ public class Enemies : MonoBehaviour {
 
 	void Tank (){
 		if (HP < 10 && HP >= 8) {
+			//mat.color = Color.Lerp (Color.red, Color.gray, .2f);
 			transform.localScale = new Vector3(2f, 2f, 2f);
 			if (!isHurt) 
-			{
+			{ 
 				sfx.volume = .3f;
 				sfx.PlayOneShot(sfx_grow);
 				isHurt = true;
 			}
 		}
 		if (HP < 8 && HP >= 6) {
-			transform.localScale = new Vector3(3f, 3f, 3f);
+			//mat.color = Color.Lerp (Color.red, Color.gray, .4f); 
+			transform.localScale = new Vector3(2.25f, 2.25f, 2.25f);
 			isHurt = false;
 		}
 		if (HP < 6 && HP >= 4) {
-			transform.localScale = new Vector3(4f, 4f, 4f);
+			//mat.color = Color.Lerp (Color.red, Color.gray, .6f);
+			transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
 			if (!isHurt) 
 			{
 				sfx.volume = .3f;
@@ -115,11 +146,13 @@ public class Enemies : MonoBehaviour {
 			}
 		}
 		if (HP < 4 && HP >= 2) {
-			transform.localScale = new Vector3(5f, 5f, 5f);
+			//mat.color = Color.Lerp (Color.red, Color.gray, .8f);
+			transform.localScale = new Vector3(2.75f, 2.75f, 2.75f);
 			isHurt = false;
 		}
 		if (HP < 2 && HP >= 1) {
-			transform.localScale = new Vector3(6f, 6f, 6f);
+			//mat.color = Color.Lerp (Color.red, Color.gray, 1f);
+			transform.localScale = new Vector3(3f, 3f, 3f);
 			if (!isHurt) 
 			{
 				sfx.volume = .3f;
@@ -163,7 +196,7 @@ public class Enemies : MonoBehaviour {
 
 	void Attack (Transform t){
 		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t.position - transform.position), .2f);
-		transform.position += transform.forward * 3.0f * Time.deltaTime;
+		transform.position += transform.forward * 2.5f * Time.deltaTime;
 	}
 
 //	public void Killed (){
@@ -174,8 +207,18 @@ public class Enemies : MonoBehaviour {
 //		}
 //	}
 	public void Killed (){
+		shift += .1f;
 		if (color != "red") {
 			sfx.PlayOneShot (sfx_hit);
+//			if (color == "blue") {
+//				mat.color = Color.white;
+//			}
+//			if (color == "yellow") {
+//				mat.color = Color.white;
+//			}
+//			if (color == "green") {
+//				mat.color = Color.white;
+//			}
 		}
 		if (HP <= 0){
 			//p.SetActive(true);
@@ -188,7 +231,7 @@ public class Enemies : MonoBehaviour {
 				}
 				if (color == "blue")
 				{
-					target.GetComponent<Player1> ().totalScore += 2;
+					target.GetComponent<Player1> ().totalScore += 5;
 				}
 				if (color == "yellow")
 				{
@@ -198,8 +241,13 @@ public class Enemies : MonoBehaviour {
 				if (color == "green")
 				{
 					sfx.PlayOneShot(sfx_agro);
-					target.GetComponent<Player1> ().totalScore += 4;
+					target.GetComponent<Player1> ().totalScore += 6;
 				}
+				if (color == "black")
+				{
+					target.GetComponent<Player1> ().totalScore += 3;
+				}
+
 			}
 			
 			if (target.tag == "Player2")
@@ -211,7 +259,7 @@ public class Enemies : MonoBehaviour {
 				}
 				if (color == "blue")
 				{
-					target.GetComponent<Player2> ().totalScore += 2;
+					target.GetComponent<Player2> ().totalScore += 5;
 				}
 				if (color == "yellow")
 				{
@@ -221,7 +269,11 @@ public class Enemies : MonoBehaviour {
 				if (color == "green")
 				{
 					sfx.PlayOneShot(sfx_agro);
-					target.GetComponent<Player2> ().totalScore += 4;
+					target.GetComponent<Player2> ().totalScore += 6;
+				}
+				if (color == "black")
+				{
+					target.GetComponent<Player2> ().totalScore += 3;
 				}
 			}
 			gameObject.SetActive(false);

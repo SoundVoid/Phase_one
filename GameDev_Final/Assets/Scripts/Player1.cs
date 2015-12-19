@@ -8,7 +8,7 @@ public class Player1 : MonoBehaviour {
 	Rigidbody rb;
 
 	public float setDrag = .9f;
-	public float setRight = 1.5f;
+	public float setRight = 2.5f;
 	public int setGunDamage = 1;
 	public int setAxeDamage = 3;
 
@@ -25,12 +25,13 @@ public class Player1 : MonoBehaviour {
 	public float axeDamage;
 	public int totalScore = 0;
 	public float t = 1f;
-	
+	public GameObject g;
+
 	public bool dead = false;
 	public bool gotItem = false;
 	public bool sh = false;
 	public bool st = false;
-	private float shHP = 30f;
+	private float shHP = 50f;
 
 	private Bullet[] spread;
 	private Vector3 s;
@@ -58,14 +59,14 @@ public class Player1 : MonoBehaviour {
 	void Update () {
 		//if the player's health is zero, deactivate the player
 		//p.rectTransform.anchoredPosition = transform.TransformVector(gameObject.transform.position.x - 54.5f, gameObject.transform.position.z, 0f);
-		Debug.Log (p.rectTransform.position.x);
+		//Debug.Log (p.rectTransform.position.x);
 		//p.rectTransform.anchoredPosition.x.Equals (gameObject.transform.position.x - 53.5f);
 		//p.rectTransform.anchoredPosition.y.Equals (gameObject.transform.position.z - 15.4f);
 
 		Vector3 mapIndicatorPos = new Vector3((transform.localPosition.x+1f)/2.5f, (transform.localPosition.z-3.2f)/1.9f, 0);
 		p.transform.localPosition = mapIndicatorPos * (100f/12.13f);
 
-		Debug.Log (p.rectTransform.position.x);
+		//Debug.Log (p.rectTransform.position.x);
 
 		wall = false;
 		if (currentHealth <= 0)
@@ -103,7 +104,7 @@ public class Player1 : MonoBehaviour {
 				Shoot();
 			}
 			if(weaponController.axeEquipped == true){
-				Debug.Log ("act");
+				//Debug.Log ("act");
 				if (t > 0f) {
 					t -= Time.deltaTime;
 					gameObject.GetComponent<Animator> ().SetBool("axeS", true);
@@ -138,7 +139,7 @@ public class Player1 : MonoBehaviour {
 			if (shHP <= 0f) {
 				sheild.SetActive(false);
 				sh = false;
-				shHP = 30f;
+				shHP = 50f;
 			}
 		}
 		
@@ -193,11 +194,11 @@ public class Player1 : MonoBehaviour {
 		//Instantiate a bullet and set it to a newBullet
 		sfx.PlayOneShot(sfx_shoot);
 		if (st == false) {
-			Bullet newBullet = (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+			Bullet newBullet = (Bullet)Instantiate (bullet, g.transform.position + transform.forward, Quaternion.identity);
 			newBullet.direction = transform.forward;
 		}
 		if (st == true) {
-			STBullet newBullet = (STBullet)Instantiate (stBullet, transform.position + transform.forward, Quaternion.identity);
+			STBullet newBullet = (STBullet)Instantiate (stBullet, g.transform.position + transform.forward, Quaternion.identity);
 			newBullet.direction = transform.forward;
 		}
 		//if (weapCtrl.hasGun) {

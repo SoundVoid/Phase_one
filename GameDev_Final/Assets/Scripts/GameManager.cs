@@ -28,6 +28,12 @@ public class GameManager : MonoBehaviour {
 	public Enemies greenEnemy1;
 	public Enemies greenEnemy2;
 
+	public Enemies[] phantoms;
+
+	public Material red;
+	public Material cyan;
+	public Material green;
+
 //	public Enemies Boss1;
 //	public Enemies Boss2;
 //	public Enemies Boss3;
@@ -62,6 +68,7 @@ public class GameManager : MonoBehaviour {
 
 	private int n = 0;
 	private int m = 0;
+	private int matches = 1;
 
 	private float t = 30.0f;
 	private float pt = 10.0f;
@@ -72,6 +79,7 @@ public class GameManager : MonoBehaviour {
 	public Image blueIcon;
 	public Image yellowIcon;
 	public Image greenIcon;
+	public Image whiteIcon;
 
 	public GameObject t1;
 	public GameObject t2;
@@ -89,6 +97,7 @@ public class GameManager : MonoBehaviour {
 	public AudioClip sfx_agro;
 	public AudioClip sfx_blip;
 	public AudioClip sfx_hit;
+	public AudioClip sfx_error;
 	
 
 	// Use this for initialization
@@ -139,7 +148,7 @@ public class GameManager : MonoBehaviour {
 		{
 			if (Input.GetKeyDown (KeyCode.R))
 			{
-				Debug.Log ("Reset");
+				//Debug.Log ("Reset");
 				Application.LoadLevel (Application.loadedLevel);
 			}
 		}
@@ -166,6 +175,19 @@ public class GameManager : MonoBehaviour {
 			else {
 				timer.color = Color.red;
 				matchTimer = 30.0f;
+
+//				if (player1.dead == true) {
+//					player1.dead = false;
+//					player1.currentHealth = 100f;
+//					player1.gameObject.SetActive(true);
+//					player1.p.gameObject.SetActive(true);
+//				}
+//				if (player2.dead == true) {
+//					player2.dead = false;
+//					player2.currentHealth = 100f;
+//					player2.gameObject.SetActive(true);
+//					player2.p.gameObject.SetActive(true);
+//				}
 			}
 		}
 		if (matchTimer < 10.0f || matchTimer < 10.0f) {
@@ -184,6 +206,8 @@ public class GameManager : MonoBehaviour {
 		}
 		if (matchTimer <= 1f && matchTimer > 0f) {
 			newW = true;
+			matches += 1;
+			//Debug.Log (matches);
 		} else {
 			newW = false;
 		}
@@ -213,11 +237,17 @@ public class GameManager : MonoBehaviour {
 			mainT.SetActive(false);
 			back.SetActive(false);
 		}
+		if (grace == true) {
+			if (player1.dead == true) {
+				player2.dead = true;
+				player2.gameObject.SetActive(false);
+			}
+			if (player2.dead == true) {
+				player1.dead = true;
+				player1.gameObject.SetActive(false);
+			}
+		}
 
-//		redIcon.transform.parent = newParent.transform;
-//		blueIcon.transform.parent = newParent.transform;
-//		yellowIcon.transform.parent = newParent.transform;
-//		greenIcon.transform.parent = newParent.transform;
 	}
 
 	void SpawnRed() {
@@ -265,6 +295,7 @@ public class GameManager : MonoBehaviour {
 			
 			tracker = thisImage;
 
+			blueEnemy1.mat = red;
 			blueEnemy1.sfx = sfx;
 			blueEnemy1.sfx_hit = sfx_hit;
 			blueEnemy1.sfx_grow = sfx_grow;
@@ -279,6 +310,7 @@ public class GameManager : MonoBehaviour {
 			
 			tracker = thisImage;
 
+			blueEnemy2.mat = red;
 			blueEnemy2.sfx = sfx;
 			blueEnemy2.sfx_hit = sfx_hit;
 			blueEnemy2.sfx_grow = sfx_grow;
@@ -298,6 +330,7 @@ public class GameManager : MonoBehaviour {
 			
 			tracker = thisImage;
 
+			yellowEnemy1.mat = green;
 			yellowEnemy1.sfx = sfx;
 			yellowEnemy1.sfx_hit = sfx_hit;
 			yellowEnemy1.sfx_zoom = sfx_zoom;
@@ -313,6 +346,7 @@ public class GameManager : MonoBehaviour {
 			
 			tracker = thisImage;
 
+			yellowEnemy2.mat = green;
 			yellowEnemy2.sfx = sfx;
 			yellowEnemy2.sfx_hit = sfx_hit;
 			yellowEnemy2.sfx_zoom = sfx_zoom;
@@ -333,6 +367,7 @@ public class GameManager : MonoBehaviour {
 			
 			tracker = thisImage;
 
+			greenEnemy1.mat = cyan;
 			greenEnemy1.sfx = sfx;
 			greenEnemy1.sfx_hit = sfx_hit;
 			greenEnemy1.sfx_agro = sfx_agro;
@@ -349,6 +384,7 @@ public class GameManager : MonoBehaviour {
 			
 			tracker = thisImage;
 
+			greenEnemy2.mat = cyan;
 			greenEnemy2.sfx = sfx;
 			greenEnemy2.sfx_hit = sfx_hit;
 			greenEnemy2.sfx_agro = sfx_agro;
@@ -361,6 +397,46 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	void SpawnP() {
+		int phIndex = Random.Range (0, 3);
+		if (player1.dead == false) {
+			if (player2.totalScore > player1.totalScore) {
+				int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
+
+				Image thisImage = (Image)Instantiate(whiteIcon, new Vector3(spawnPoints2[spawnPointIndex1].localPosition.x, spawnPoints2[spawnPointIndex1].localPosition.z), Quaternion.identity);
+				thisImage.transform.SetParent(newParent.transform);
+				
+				tracker = thisImage;
+				
+				phantoms[phIndex].p = tracker;
+				
+				phantoms[phIndex].sfx = sfx;
+				phantoms[phIndex].sfx_blip = sfx_error;
+				phantoms[phIndex].gm = this;
+				phantoms[phIndex].target = player1.transform;
+				Instantiate (phantoms[phIndex], spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+			}
+		}
+
+		if (player2.dead == false) {
+			if (player1.totalScore > player2.totalScore) {
+				int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
+
+				Image thisImage = (Image)Instantiate(whiteIcon, new Vector3(spawnPoints2[spawnPointIndex2].localPosition.x, spawnPoints2[spawnPointIndex2].localPosition.z), Quaternion.identity);
+				thisImage.transform.SetParent(newParent.transform);
+
+				tracker = thisImage;
+
+				phantoms[phIndex].p = tracker;
+				phantoms[phIndex].sfx = sfx;
+				phantoms[phIndex].sfx_blip = sfx_error;
+				phantoms[phIndex].gm = this;
+				phantoms[phIndex].target = player2.transform;
+				Instantiate (phantoms[phIndex], spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+			}
+		}	
+	}
+
 	void SpawnEnemy()
 	{
 		switch (wave) {
@@ -368,33 +444,49 @@ public class GameManager : MonoBehaviour {
 			InvokeRepeating("SpawnRed", 1.5f, 1.5f);
 			break;
 		case 1:
-			InvokeRepeating("SpawnBlue", 2f, 2f);
+			InvokeRepeating("SpawnBlue", 2.25f, 2.25f);
+
+			InvokeRepeating("SpawnP", 3f, 3f);
 			break;
 		case 2:
 			InvokeRepeating("SpawnRed", 1.5f, 1.5f);
 			InvokeRepeating("SpawnBlue", 2.5f, 2.5f);
+
+			InvokeRepeating("SpawnP", 3f, 3f);
 			break;
 		case 3:
-			InvokeRepeating("SpawnYellow", 1.5f, 1.5f);
+			InvokeRepeating("SpawnYellow", 2.25f, 2.25f);
+
+			InvokeRepeating("SpawnP", 3f, 3f);
 			break;
 		case 4:
 			InvokeRepeating("SpawnRed", 1.5f, 1.5f);
 			InvokeRepeating("SpawnYellow", 2.5f, 2.5f);
+
+			InvokeRepeating("SpawnP", 3f, 3f);
 			break;
 		case 5:
 			InvokeRepeating("SpawnRed", 2f, 2f);
-			InvokeRepeating("SpawnGreen", 1.5f, 1.5f);
+			InvokeRepeating("SpawnGreen", 1.75f, 1.75f);
+
+			InvokeRepeating("SpawnP", 3f, 3f);
 			break;
 		case 6:
-			InvokeRepeating("SpawnBlue", 2f, 2f);
-			InvokeRepeating("SpawnGreen", 1.5f, 1.5f);
+			InvokeRepeating("SpawnBlue", 2.25f, 2.25f);
+			InvokeRepeating("SpawnGreen", 1.75f, 1.75f);
+
+			InvokeRepeating("SpawnP", 3f, 3f);
 			break;
 		case 7:
-			InvokeRepeating("SpawnYellow", 2f, 2f);
-			InvokeRepeating("SpawnGreen", 1.5f, 1.5f);
+			InvokeRepeating("SpawnYellow", 2.25f, 2.25f);
+			InvokeRepeating("SpawnGreen", 1.75f, 1.75f);
+
+			InvokeRepeating("SpawnP", 3f, 3f);
 			break;
 		case 8:
-			InvokeRepeating("SpawnGreen", 1.5f, 1.5f);
+			InvokeRepeating("SpawnGreen", 2.25f, 2.25f);
+
+			InvokeRepeating("SpawnP", 3f, 3f);
 			break;
 		}
 	}

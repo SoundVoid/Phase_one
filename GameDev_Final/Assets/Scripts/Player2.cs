@@ -6,7 +6,7 @@ public class Player2 : MonoBehaviour {
 	Rigidbody rb;
 
 	public float setDrag = .9f;
-	public float setRight = 1.5f;
+	public float setRight = 2.5f;
 	public int setGunDamage = 1;
 	public int setAxeDamage = 3;
 
@@ -22,12 +22,13 @@ public class Player2 : MonoBehaviour {
 	public float gunDamage;
 	public float axeDamage;
 	public int totalScore = 0;
+	public GameObject g;
 
 	public bool dead = false;
 	public bool gotItem = false;
 	public bool sh = false;
 	public bool st = false;
-	private float shHP = 30f;
+	private float shHP = 50f;
 
 	private int score;
 	public AudioSource sfx;
@@ -95,7 +96,7 @@ public class Player2 : MonoBehaviour {
 			if (shHP <= 0f) {
 				sheild.SetActive(false);
 				sh = false;
-				shHP = 30f;
+				shHP = 50f;
 			}
 		}
 		
@@ -145,11 +146,11 @@ public class Player2 : MonoBehaviour {
 		sfx.PlayOneShot(sfx_shoot);
 		//Instantiate a bullet and set it to a newBullet
 		if (st == false) {
-			Bullet newBullet = (Bullet)Instantiate (bullet, transform.position + transform.forward, Quaternion.identity);
+			Bullet newBullet = (Bullet)Instantiate (bullet, g.transform.position + transform.forward, Quaternion.identity);
 			newBullet.direction = transform.forward;
 		}
 		if (st == true) {
-			STBullet newBullet = (STBullet)Instantiate (stBullet, transform.position + transform.forward, Quaternion.identity);
+			STBullet newBullet = (STBullet)Instantiate (stBullet, g.transform.position + transform.forward, Quaternion.identity);
 			newBullet.direction = transform.forward;
 		}
 		

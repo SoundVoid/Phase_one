@@ -17,6 +17,9 @@ public class WaveManager : MonoBehaviour {
 
 	public GameManager GM;
 
+	public GameObject t1;
+	public GameObject t2;
+
 	private int n;
 	private int m;
 
@@ -31,9 +34,10 @@ public class WaveManager : MonoBehaviour {
 	void Update () {
 		if (GM.grace == true) {
 			if (player1.dead == false) {
-				if (GM.prepTimer > 8f) {
+				if (GM.prepTimer > 9f) {
 					sp1.SetActive (true);
 					player1.gameObject.GetComponent<Transform> ().position = resetPoints1 [0].position;
+					player1.transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t1.transform.position - transform.position), 0f);
 				}
 				if (player1.gotItem == false) {
 					if (player1.currentHealth < player1.maxHealth/2f) {
@@ -54,6 +58,7 @@ public class WaveManager : MonoBehaviour {
 				if (GM.prepTimer > 8f) {
 					sp2.SetActive (true);
 					player2.gameObject.GetComponent<Transform> ().position = resetPoints2 [0].position;
+					player2.transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation(t2.transform.position - transform.position), 0f);
 				}
 				if (player2.gotItem == false) {
 					if (player2.currentHealth < player2.maxHealth/2f) {

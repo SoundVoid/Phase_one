@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour {
 				timer.text = prepTimer.ToString ("#.##");
 				//wave = 1;
 				temp = wave;
-				wave = Random.Range (1, 8);
+				wave = Random.Range (1, 11);
 //				if (temp == wave) {
 //					wave = (wave + temp) % 8;
 //				}
@@ -487,6 +487,20 @@ public class GameManager : MonoBehaviour {
 			InvokeRepeating("SpawnGreen", 2.25f, 2.25f);
 
 			InvokeRepeating("SpawnP", 3f, 3f);
+			break;
+		case 9:
+			InvokeRepeating("SpawnYellow", 2.75f, 2.75f);
+			InvokeRepeating("SpawnBlue", 3f, 3f);
+			
+			InvokeRepeating("SpawnP", 3f, 3f);
+			break;
+		case 10:
+			InvokeRepeating("SpawnP", 2f, 2f);
+			break;
+		case 11:
+			InvokeRepeating("SpawnRed", 1.5f, 1.5f);
+			
+			InvokeRepeating("SpawnP", 2f, 2f);
 			break;
 		}
 	}

@@ -403,7 +403,7 @@ public class GameManager : MonoBehaviour {
 			if (player2.totalScore > player1.totalScore) {
 				int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
 
-				Image thisImage = (Image)Instantiate(whiteIcon, new Vector3(spawnPoints2[spawnPointIndex1].localPosition.x, spawnPoints2[spawnPointIndex1].localPosition.z), Quaternion.identity);
+				Image thisImage = (Image)Instantiate(whiteIcon, new Vector3(spawnPoints1[spawnPointIndex1].localPosition.x, spawnPoints1[spawnPointIndex1].localPosition.z), Quaternion.identity);
 				thisImage.transform.SetParent(newParent.transform);
 				
 				tracker = thisImage;
@@ -434,7 +434,72 @@ public class GameManager : MonoBehaviour {
 				phantoms[phIndex].target = player2.transform;
 				Instantiate (phantoms[phIndex], spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
 			}
-		}	
+		}
+
+		if (player1.dead == false && player2.dead == true) {
+			int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
+			
+			Image thisImage = (Image)Instantiate(whiteIcon, new Vector3(spawnPoints1[spawnPointIndex1].localPosition.x, spawnPoints1[spawnPointIndex1].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+			
+			tracker = thisImage;
+			
+			phantoms[phIndex].p = tracker;
+			
+			phantoms[phIndex].sfx = sfx;
+			phantoms[phIndex].sfx_blip = sfx_error;
+			phantoms[phIndex].gm = this;
+			phantoms[phIndex].target = player1.transform;
+			Instantiate (phantoms[phIndex], spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+		}
+
+		if (player1.dead == true && player2.dead == false) {
+			int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
+			
+			Image thisImage = (Image)Instantiate(whiteIcon, new Vector3(spawnPoints2[spawnPointIndex2].localPosition.x, spawnPoints2[spawnPointIndex2].localPosition.z), Quaternion.identity);
+			thisImage.transform.SetParent(newParent.transform);
+			
+			tracker = thisImage;
+			
+			phantoms[phIndex].p = tracker;
+			phantoms[phIndex].sfx = sfx;
+			phantoms[phIndex].sfx_blip = sfx_error;
+			phantoms[phIndex].gm = this;
+			phantoms[phIndex].target = player2.transform;
+			Instantiate (phantoms[phIndex], spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+		}
+		if (player1.dead == false && player2.dead == false) {
+			if (player1.totalScore == player2.totalScore) {
+				int spawnPointIndex1 = Random.Range (0, spawnPoints1.Length);
+				
+				Image thisImage = (Image)Instantiate(whiteIcon, new Vector3(spawnPoints1[spawnPointIndex1].localPosition.x, spawnPoints1[spawnPointIndex1].localPosition.z), Quaternion.identity);
+				thisImage.transform.SetParent(newParent.transform);
+				
+				tracker = thisImage;
+				
+				phantoms[phIndex].p = tracker;
+				
+				phantoms[phIndex].sfx = sfx;
+				phantoms[phIndex].sfx_blip = sfx_error;
+				phantoms[phIndex].gm = this;
+				phantoms[phIndex].target = player1.transform;
+				Instantiate (phantoms[phIndex], spawnPoints1[spawnPointIndex1].position, spawnPoints1[spawnPointIndex1].rotation);
+
+				int spawnPointIndex2 = Random.Range (0, spawnPoints2.Length);
+				
+				Image thisOtherImage = (Image)Instantiate(whiteIcon, new Vector3(spawnPoints2[spawnPointIndex2].localPosition.x, spawnPoints2[spawnPointIndex2].localPosition.z), Quaternion.identity);
+				thisImage.transform.SetParent(newParent.transform);
+				
+				tracker = thisOtherImage;
+				
+				phantoms[phIndex].p = tracker;
+				phantoms[phIndex].sfx = sfx;
+				phantoms[phIndex].sfx_blip = sfx_error;
+				phantoms[phIndex].gm = this;
+				phantoms[phIndex].target = player2.transform;
+				Instantiate (phantoms[phIndex], spawnPoints2[spawnPointIndex2].position, spawnPoints2[spawnPointIndex2].rotation);
+			}
+		}
 	}
 
 	void SpawnEnemy()

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class startScript2 : MonoBehaviour {
+public class startScript3 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -11,10 +11,10 @@ public class startScript2 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Return) || Input.GetKeyDown (KeyCode.KeypadEnter)) {
-			Application.LoadLevel(2);
+			Application.LoadLevel(3);
 		}
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-			Application.LoadLevel (1);
+			Application.LoadLevel (2);
 		}
 	}
 }

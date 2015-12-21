@@ -23,9 +23,9 @@ public class Bullet : MonoBehaviour {
 		// check if its an enemy
 		if (col.collider.tag == "Enemy") {
 			//set enemy to false
-			if (col.collider.GetComponent<Enemies> ().color != "black" && col.collider.GetComponent<Enemies> ().color != "red"){
-				//col.collider.GetComponent<Enemies> ().mat.color = Color.white;
-			}
+//			if (col.collider.GetComponent<Enemies> ().color != "black" && col.collider.GetComponent<Enemies> ().color != "red"){
+//				//col.collider.GetComponent<Enemies> ().mat.color = Color.white;
+//			}
 			col.collider.gameObject.GetComponent<Enemies> ().HP -= 1;
 			col.collider.gameObject.GetComponent<Enemies> ().Killed();
 			Destroy(gameObject);

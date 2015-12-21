@@ -130,13 +130,13 @@ public class GameManager : MonoBehaviour {
 		if (player1.currentHealth <= 0f) {
 			s1 = "0";
 		}
-		status1.text = "Player 1: " + s1;
+		status1.text = s1;
 
 		string s2 = player2.currentHealth.ToString ("#");
 		if (player2.currentHealth <= 0f) {
 			s2 = "0";
 		}
-		status2.text = "Player 2: " + s2;
+		status2.text = s2;
 
 		string s11 = player1.totalScore.ToString ("#");
 		score1.text = "Score: " + s11;

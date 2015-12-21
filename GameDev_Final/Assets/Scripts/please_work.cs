@@ -13,5 +13,8 @@ public class please_work : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Return) || Input.GetKeyDown (KeyCode.KeypadEnter)) {
 			Application.LoadLevel(1);
 		}
+		if (Input.GetKeyDown (KeyCode.LeftShift) || Input.GetKeyDown (KeyCode.RightShift)) {
+			Application.LoadLevel(3);
+		}
 	}
 }
